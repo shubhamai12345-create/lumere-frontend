@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart — Lumère</title>
+<link rel="stylesheet" href="styles/global.css">
+<style>
+.page-head{padding:80px 0 40px;border-bottom:1px solid var(--hair);}
+.page-head h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);}
+.page-head h1 em{font-style:italic;color:var(--sage);}
+.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:48px 0 80px;align-items:start;}
+.cart-items{display:flex;flex-direction:column;gap:16px;}
+.cart-item{display:flex;gap:20px;padding:22px;background:var(--white);border-radius:12px;border:1px solid var(--hair);}
+.ci-img{width:70px;height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;color:var(--sage);text-align:center;line-height:1.3;padding:6px;border:1px solid var(--hair);}
+.ci-body{flex:1;}
+.ci-name{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14.5px;margin-bottom:4px;}
+.ci-price{color:var(--ink-soft);font-size:14px;margin-bottom:12px;}
+.ci-qty{display:flex;align-items:center;gap:12px;}
+.qty-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.qty-btn:hover{background:var(--pearl);}
+.qty-num{font-weight:600;font-size:15px;min-width:20px;text-align:center;}
+.ci-remove{background:none;border:none;color:var(--ash);font-size:12px;cursor:pointer;margin-left:auto;align-self:flex-start;}
+.ci-remove:hover{color:var(--oxide);}
+.cart-summary{background:var(--white);border-radius:16px;border:1px solid var(--hair);padding:28px;position:sticky;top:88px;}
+.cs-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:24px;}
+.cs-row{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:12px;color:var(--ink-soft);}
+.cs-row.total{font-weight:600;font-size:16px;color:var(--ink);border-top:1px solid var(--hair);padding-top:14px;margin-top:6px;}
+.cs-delivery{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sage);margin:12px 0 18px;display:block;}
+.btn-checkout{width:100%;padding:15px;border-radius:100px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;}
+.btn-checkout:hover{background:var(--sage);}
+.pincode-row{display:flex;gap:10px;margin-bottom:16px;}
+.pincode-row input{flex:1;padding:10px 14px;border:1px solid var(--hair);border-radius:8px;font-size:14px;outline:none;}
+.pincode-row input:focus{border-color:var(--sage);}
+.pincode-row button{padding:10px 16px;border-radius:8px;background:var(--pearl);border:1px solid var(--hair);cursor:pointer;font-size:13px;}
+.delivery-eta{font-size:13px;color:var(--green);font-weight:500;margin-bottom:14px;}
+.empty-cart{text-align:center;padding:80px 40px;}
+.empty-cart h2{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:14px;}
+.empty-cart p{color:var(--ink-soft);margin-bottom:28px;}
+@media(max-width:768px){.cart-layout{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
+    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+  </div>
+</nav>
+
+<div class="page-head"><div class="wrap"><h1 class="serif">Your <em>Cart</em></h1></div></div>
+
+<div class="wrap" id="cartContainer"></div>
+<div class="toast" id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+function render() {
+  const cart = getCart();
+  const container = document.getElementById('cartContainer');
+  updateCartCount();
+  if (!cart.length) {
+    container.innerHTML = `<div class="empty-cart"><h2 class="serif">Your cart is empty</h2><p>Discover the range and add a formula that's right for your skin.</p><button class="btn btn-primary" onclick="location.href='shop.html'">Shop now</button></div>`;
+    return;
+  }
+  const subtotal = getCartTotal();
+  const gst = Math.round(subtotal * 0.18);
+  const total = subtotal + gst;
+  container.innerHTML = `
+    <div class="cart-layout">
+      <div class="cart-items">
+        ${cart.map(item => {
+          const p = PRODUCTS.find(p => p.id === item.id);
+          return `<div class="cart-item">
+            <div class="ci-img" style="background:${p?.cardBg||'var(--pearl)'}">${item.name.split('+')[0].trim()}</div>
+            <div class="ci-body">
+              <div class="ci-name">${item.name}</div>
+              <div class="ci-price">₹${item.price} · 30ml</div>
+              <div class="ci-qty">
+                <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+                <span class="qty-num">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+              </div>
+            </div>
+            <button class="ci-remove" onclick="removeItem('${item.id}')">Remove ×</button>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="cart-summary">
+        <div class="cs-title serif">Order Summary</div>
+        <div class="cs-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
+        <div class="cs-row"><span>GST (18%)</span><span>₹${gst}</span></div>
+        <div class="cs-row"><span>Shipping</span><span style="color:var(--green)">Free</span></div>
+        <div class="cs-row total"><span>Total</span><span>₹${total}</span></div>
+        <div class="pincode-row">
+          <input type="text" id="pincodeInput" placeholder="Enter pincode" maxlength="6">
+          <button onclick="checkETA()">Check</button>
+        </div>
+        <div id="deliveryETA"></div>
+        <span class="cs-delivery">📦 Free delivery on all orders · COD available</span>
+        <button class="btn-checkout" onclick="location.href='checkout.html'">Proceed to Checkout →</button>
+      </div>
+    </div>`;
+}
+
+function changeQty(id, delta) {
+  const cart = getCart();
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  saveCart(cart.filter(i => i.qty > 0));
+  render();
+}
+
+function removeItem(id) {
+  const cart = getCart().filter(i => i.id !== id);
+  saveCart(cart);
+  render();
+}
+
+async function checkETA() {
+  const pin = document.getElementById('pincodeInput').value.trim();
+  if (pin.length !== 6) { showToast('Enter a valid 6-digit pincode'); return; }
+  const eta = document.getElementById('deliveryETA');
+  eta.innerHTML = '<span style="font-size:13px;color:var(--ash)">Checking…</span>';
+  try {
+    const res = await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
+    const data = await res.json();
+    eta.innerHTML = `<div class="delivery-eta">🚚 ${data.message || 'Delivered in ' + data.air_days + ' business days'}</div>`;
+  } catch {
+    eta.innerHTML = `<div class="delivery-eta">🚚 Delivered in 3–5 business days pan-India</div>`;
+  }
+}
+
+render();
+</script>
+</body>
+</html>

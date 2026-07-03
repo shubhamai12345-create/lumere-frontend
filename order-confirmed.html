@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — Lumère</title>
+<link rel="stylesheet" href="styles/global.css">
+<style>
+.confirmed-wrap{max-width:600px;margin:0 auto;padding:80px 24px;text-align:center;}
+.check-circle{width:80px;height:80px;border-radius:50%;background:var(--sage-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:36px;}
+.confirmed-wrap h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,40px);margin-bottom:14px;}
+.confirmed-wrap h1 em{font-style:italic;color:var(--sage);}
+.confirmed-wrap p{font-size:16px;color:var(--ink-soft);margin-bottom:28px;}
+.order-id{font-family:'IBM Plex Mono',monospace;font-size:14px;background:var(--pearl);padding:12px 20px;border-radius:8px;border:1px solid var(--hair);margin-bottom:28px;display:inline-block;}
+.confirmed-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li></ul>
+    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'">🛒</div></div>
+  </div>
+</nav>
+
+<div class="confirmed-wrap">
+  <div class="check-circle">✓</div>
+  <h1 class="serif">Order <em>confirmed.</em></h1>
+  <p>Your Lumère formulas are being packed. You'll receive a shipping confirmation with a tracking link as soon as your order is dispatched from our Delhi warehouse.</p>
+  <div class="order-id" id="orderIdBox">Loading…</div>
+  <p style="font-size:14px;color:var(--ash);">A GST invoice has been sent to your email address.</p>
+  <div class="confirmed-actions">
+    <button class="btn btn-primary" id="trackBtn">Track my order</button>
+    <button class="btn btn-ghost" onclick="location.href='shop.html'">Continue shopping</button>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const orderId = params.get('order_id') || 'LUM-2026-XXXXXX';
+const method = params.get('method');
+document.getElementById('orderIdBox').textContent = 'Order ID: ' + orderId;
+document.getElementById('trackBtn').onclick = () => location.href = `track.html?order_id=${orderId}`;
+</script>
+</body>
+</html>

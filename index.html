@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumère — Skincare named after what's in it</title>
+<link rel="stylesheet" href="styles/global.css">
+<style>
+.hero{min-height:100vh;padding-top:64px;display:grid;grid-template-columns:1fr 1fr;align-items:center;}
+.hero-left{padding:80px 60px 80px 80px;display:flex;flex-direction:column;gap:26px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--sage);}
+.hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(40px,4.4vw,64px);line-height:1.08;letter-spacing:-.01em;}
+.hero-headline em{font-style:italic;color:var(--sage);}
+.hero-sub{font-size:17px;color:var(--ink-soft);max-width:420px;}
+.hero-sub b{color:var(--ink);}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-trust{display:flex;gap:22px;flex-wrap:wrap;}
+.trust-item{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ash);display:flex;align-items:center;gap:6px;}
+.trust-item::before{content:'✓';color:var(--sage);}
+.hero-right{height:100vh;background:var(--blush);display:flex;align-items:center;justify-content:center;padding:60px;}
+.product-stack{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;}
+.pcard-hero{background:var(--white);border-radius:16px;padding:26px;box-shadow:0 4px 40px rgba(26,24,20,.08);cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;border-left:3px solid var(--sage);}
+.pcard-hero:hover{transform:translateY(-4px);box-shadow:0 12px 50px rgba(26,24,20,.12);}
+.pcard-formula{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;}
+.pcard-name{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:8px;}
+.pcard-desc{font-size:13.5px;color:var(--ash);line-height:1.5;margin-bottom:16px;}
+.pcard-footer{display:flex;justify-content:space-between;align-items:center;}
+.pcard-price{font-weight:600;font-size:17px;}
+.marquee-section{background:var(--ink);padding:14px 0;overflow:hidden;}
+.marquee-track{display:flex;gap:40px;animation:marquee 28s linear infinite;width:max-content;}
+.marquee-track:hover{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-item{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;display:flex;align-items:center;gap:40px;}
+.marquee-item span{color:var(--sage);}
+.section{padding:90px 0;}
+.section-alt{background:var(--white);}
+.section-head{margin-bottom:52px;}
+.section-head .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:12px;}
+.section-head h2{font-family:'DM Serif Display',serif;font-size:clamp(32px,3.2vw,46px);line-height:1.12;margin-bottom:14px;}
+.section-head h2 em{font-style:italic;color:var(--sage);}
+.section-head p{font-size:16px;color:var(--ink-soft);max-width:520px;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.product-card{background:var(--white);border:1px solid var(--hair);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(26,24,20,.10);}
+.pc-visual{height:190px;background:linear-gradient(135deg,var(--sage-lt) 0%,var(--blush) 100%);display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
+.pc-bottle{width:60px;height:94px;background:var(--white);border-radius:7px 7px 14px 14px;border:1.5px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:7px 5px;box-shadow:0 4px 20px rgba(26,24,20,.10);}
+.pc-cap{width:18px;height:7px;border-radius:2px 2px 0 0;margin-bottom:4px;flex:none;}
+.pc-label{width:100%;background:var(--pearl);border-radius:2px;padding:3px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:4.5px;font-weight:600;color:var(--ink);line-height:1.4;}
+.pc-body{padding:20px 20px 18px;}
+.pc-inci{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:7px;}
+.pc-name{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:7px;}
+.pc-desc{font-size:13.5px;color:var(--ash);line-height:1.55;margin-bottom:14px;}
+.pc-row{display:flex;justify-content:space-between;align-items:center;}
+.pc-price{font-weight:600;font-size:15px;}
+.pc-size{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
+.badge-sage{background:var(--sage-lt);color:var(--sage);}
+.badge-gold{background:var(--gold-lt);color:var(--gold);}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.why-item{padding:32px;background:var(--pearl);border-radius:16px;border:1px solid var(--hair);}
+.why-num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--sage);margin-bottom:14px;display:block;}
+.why-item h3{font-family:'DM Serif Display',serif;font-size:21px;line-height:1.25;margin-bottom:10px;}
+.why-item p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
+.ingredient-block{margin:0;background:var(--ink);border-radius:20px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;overflow:hidden;}
+.ib-left .eyebrow{color:var(--sage);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;display:block;}
+.ib-left h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,2.8vw,38px);color:#fff;line-height:1.15;margin-bottom:16px;}
+.ib-left h2 em{font-style:italic;color:var(--sage);}
+.ib-left p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:22px;}
+.ib-stats{display:flex;flex-direction:column;gap:14px;}
+.ib-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:10px;padding:18px 22px;}
+.ib-stat .sl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;}
+.ib-stat .sv{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--sage);}
+.ib-stat .sd{font-size:13px;color:rgba(255,255,255,.55);margin-top:3px;}
+.quiz-section{background:var(--gold-lt);padding:90px 0;}
+.quiz-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
+.qi-left h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,44px);line-height:1.15;margin-bottom:12px;}
+.qi-left h2 em{font-style:italic;color:var(--gold);}
+.qi-left p{font-size:16px;color:var(--ink-soft);max-width:480px;}
+.btn-gold{background:var(--gold);color:#fff;padding:15px 36px;border-radius:100px;font-size:15px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;}
+footer{background:var(--ink);color:rgba(255,255,255,.6);padding:56px 0 36px;}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px;}
+.fl-logo{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:10px;}
+.fl-logo span{color:var(--sage);}
+.fl-desc{font-size:13.5px;line-height:1.65;max-width:220px;}
+.fc h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px;}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.fc ul li a{font-size:13.5px;color:rgba(255,255,255,.6);}
+.fc ul li a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:12px;font-family:'IBM Plex Mono',monospace;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;}.hero-right{height:360px;}.hero-left{padding:60px 28px 40px;}.products-grid{grid-template-columns:1fr 1fr;}.why-grid{grid-template-columns:1fr;}.ingredient-block{grid-template-columns:1fr;gap:32px;padding:40px 28px;}.quiz-inner{grid-template-columns:1fr;}.footer-top{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr;}.footer-top{grid-template-columns:1fr;}}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links">
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="science.html">The Science</a></li>
+      <li><a href="quiz.html">Skin Quiz</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div>
+      <button class="btn btn-primary" onclick="location.href='shop.html'">Shop Now</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Skincare, reformulated</span>
+    <h1 class="hero-headline serif">Named after<br><em>what's in it.</em><br>Nothing hidden.</h1>
+    <p class="hero-sub">Most Indian skincare labels hide ingredients behind vague words like "brightening." Lumère lists the active, the concentration, and the mechanism. <b>The formula is the product.</b></p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="location.href='shop.html'">Explore the range</button>
+      <button class="btn btn-ghost" onclick="location.href='quiz.html'">Take skin quiz →</button>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-item">Dermat-tested</span>
+      <span class="trust-item">Made for Indian skin</span>
+      <span class="trust-item">No hidden ingredients</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="product-stack">
+      <div class="pcard-hero" onclick="location.href='product.html?id=NIA-10'">
+        <div class="pcard-formula">Active Serum · 30ml</div>
+        <div class="pcard-name mono">Niacinamide 10%<br>+ Zinc 1%</div>
+        <p class="pcard-desc">Controls oil, minimises pores, and reduces hyperpigmentation — formulated at the clinically effective 10% threshold.</p>
+        <div class="pcard-footer"><span class="pcard-price">₹699</span><button class="btn btn-sage" style="padding:8px 18px;font-size:12.5px;" onclick="event.stopPropagation();addToCart('NIA-10')">Add to cart</button></div>
+      </div>
+      <div class="pcard-hero" onclick="location.href='product.html?id=TXA-5'" style="border-left-color:var(--gold);">
+        <div class="pcard-formula" style="color:var(--gold);">Brightening Serum · 30ml</div>
+        <div class="pcard-name mono">Tranexamic Acid 5%<br>+ Kojic Acid 1%</div>
+        <p class="pcard-desc">Targets melanin at the source. No hydroquinone. Formulated for Indian skin's specific pigmentation patterns.</p>
+        <div class="pcard-footer"><span class="pcard-price">₹849</span><button class="btn btn-sage" style="padding:8px 18px;font-size:12.5px;" onclick="event.stopPropagation();addToCart('TXA-5')">Add to cart</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item"><span>Niacinamide 10%</span>·<span>Tranexamic Acid 5%</span>·<span>Kojic Acid 1%</span>·<span>Hyaluronic Acid 2%</span>·<span>Retinol 0.5%</span>·<span>Azelaic Acid 10%</span>·<span>Salicylic Acid 2%</span>·<span>Zinc PCA 1%</span>·<span>Alpha Arbutin 2%</span>·</span>
+    <span class="marquee-item"><span>Niacinamide 10%</span>·<span>Tranexamic Acid 5%</span>·<span>Kojic Acid 1%</span>·<span>Hyaluronic Acid 2%</span>·<span>Retinol 0.5%</span>·<span>Azelaic Acid 10%</span>·<span>Salicylic Acid 2%</span>·<span>Zinc PCA 1%</span>·<span>Alpha Arbutin 2%</span>·</span>
+  </div>
+</div>
+
+<section class="section section-alt" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The range</div>
+      <h2 class="serif">Three formulas.<br><em>Zero guesswork.</em></h2>
+      <p>Each product is named by its active ingredient and concentration — not a marketing adjective.</p>
+    </div>
+    <div class="products-grid" id="productsGrid">
+      <!-- Loaded dynamically -->
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why Lumère</div>
+      <h2 class="serif">Built on what we<br><em>couldn't find.</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item"><span class="why-num">01</span><h3 class="serif">Named by what's in it</h3><p>Every product name is the active ingredient and its exact concentration. Not "Brightening Serum." The formula is the name because the formula is what matters.</p></div>
+      <div class="why-item"><span class="why-num">02</span><h3 class="serif">Stability-tested before it ships</h3><p>Every batch goes through stability testing at a NABL-accredited lab before it reaches you. We publish the pH range, effective shelf life, and concentration retention on every product page.</p></div>
+      <div class="why-item"><span class="why-num">03</span><h3 class="serif">Formulated for Indian skin</h3><p>Indian skin has specific pigmentation patterns, oil profiles, and climate stressors that most international formulations ignore. Lumère is built around these specifically.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="ingredient-block">
+      <div class="ib-left">
+        <span class="eyebrow">The science</span>
+        <h2 class="serif">Why <em>Niacinamide</em> works — and why concentration matters.</h2>
+        <p>At 2%, niacinamide is moisturising. At 5%, it starts to reduce pigmentation. At 10%, it controls sebum. Most brands don't tell you which percentage they're using. We put it in the product name.</p>
+        <button class="btn btn-sage" onclick="location.href='science.html'">Read the full breakdown →</button>
+      </div>
+      <div class="ib-stats">
+        <div class="ib-stat"><div class="sl">Lumère concentration</div><div class="sv">Niacinamide 10%</div><div class="sd">Clinical efficacy range for oil control and pore minimisation</div></div>
+        <div class="ib-stat"><div class="sl">Stability tested at</div><div class="sv">pH 5.5 – 6.5</div><div class="sd">Optimal range for niacinamide activity and skin tolerance</div></div>
+        <div class="ib-stat"><div class="sl">Tested on</div><div class="sv">Indian skin tones</div><div class="sd">Fitzpatrick III–V, the range most Indian consumers fall in</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+  <div class="wrap">
+    <div class="quiz-inner">
+      <div class="qi-left">
+        <div class="eyebrow" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;">Your skin, specifically</div>
+        <h2 class="serif">Not sure where to start?<br><em>60 seconds</em> is all it takes.</h2>
+        <p>Answer eight questions about your skin concerns, environment, and current routine. We'll tell you exactly which actives your skin needs.</p>
+      </div>
+      <button class="btn-gold" onclick="location.href='quiz.html'">Take the skin quiz →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div><div class="fl-logo serif">Lum<span>è</span>re</div><p class="fl-desc">Skincare named after what's in it. Formulated for Indian skin. No hidden ingredients, no vague claims.</p></div>
+      <div class="fc"><h4>Shop</h4><ul><li><a href="shop.html">All products</a></li><li><a href="product.html?id=NIA-10">Niacinamide 10%</a></li><li><a href="product.html?id=TXA-5">Tranexamic Acid 5%</a></li><li><a href="product.html?id=HA-2">Hyaluronic Acid 2%</a></li></ul></div>
+      <div class="fc"><h4>Learn</h4><ul><li><a href="science.html">Ingredient science</a></li><li><a href="quiz.html">Skin quiz</a></li><li><a href="#about">About Lumère</a></li></ul></div>
+      <div class="fc"><h4>Support</h4><ul><li><a href="track.html">Track your order</a></li><li><a href="#returns">Returns &amp; refunds</a></li><li><a href="#shipping">Shipping policy</a></li><li><a href="mailto:care@lumere.in">Contact us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="mono">© 2026 Lumère Skincare Pvt Ltd</p><p class="mono">Formulated in India · Shipped from Delhi</p></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+  renderProductsGrid('productsGrid', 3);
+  updateCartCount();
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Lumère</title>
+<link rel="stylesheet" href="styles/global.css">
+<style>
+.shop-head{padding:80px 0 40px;border-bottom:1px solid var(--hair);}
+.shop-head .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:12px;}
+.shop-head h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);}
+.shop-head h1 em{font-style:italic;color:var(--sage);}
+.shop-head p{font-size:16px;color:var(--ink-soft);max-width:480px;margin-top:12px;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:48px 0 80px;}
+.product-card{background:var(--white);border:1px solid var(--hair);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(26,24,20,.10);}
+.pc-visual{height:190px;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
+.pc-bottle{width:60px;height:94px;background:var(--white);border-radius:7px 7px 14px 14px;border:1.5px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:7px 5px;box-shadow:0 4px 20px rgba(26,24,20,.10);}
+.pc-cap{width:18px;height:7px;border-radius:2px 2px 0 0;margin-bottom:4px;flex:none;}
+.pc-label{width:100%;background:var(--pearl);border-radius:2px;padding:3px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:4.5px;font-weight:600;color:var(--ink);line-height:1.4;}
+.pc-body{padding:20px 20px 18px;}
+.pc-inci{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:7px;}
+.pc-name{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:7px;}
+.pc-desc{font-size:13.5px;color:var(--ash);line-height:1.55;margin-bottom:14px;}
+.pc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.pc-price{font-weight:600;font-size:15px;}
+.pc-size{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
+.badge-sage{background:var(--sage-lt);color:var(--sage);}
+.badge-gold{background:var(--gold-lt);color:var(--gold);}
+@media(max-width:900px){.products-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="science.html">The Science</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
+    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+  </div>
+</nav>
+
+<div class="shop-head">
+  <div class="wrap">
+    <div class="eyebrow">Lumère formulas</div>
+    <h1 class="serif">Three actives.<br><em>Zero guesswork.</em></h1>
+    <p>Named by what's in them. Tested before they're sold. Made for Indian skin.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+renderProductsGrid('productsGrid');
+updateCartCount();
+</script>
+</body>
+</html>

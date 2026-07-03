@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Lumère</title>
+<link rel="stylesheet" href="styles/global.css">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+.checkout-layout{display:grid;grid-template-columns:1fr 360px;gap:40px;padding:60px 0 80px;align-items:start;}
+.co-form h2{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:24px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink-soft);}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--hair);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s ease;background:var(--white);}
+.form-group input:focus,.form-group select:focus{border-color:var(--sage);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.payment-options{display:flex;flex-direction:column;gap:12px;margin:20px 0;}
+.payment-opt{display:flex;align-items:center;gap:12px;padding:16px 18px;border:2px solid var(--hair);border-radius:10px;cursor:pointer;transition:border-color .2s;}
+.payment-opt.selected,.payment-opt:hover{border-color:var(--sage);}
+.payment-opt input{accent-color:var(--sage);}
+.payment-opt label{cursor:pointer;font-size:14.5px;font-weight:500;}
+.order-sidebar{background:var(--white);border-radius:16px;border:1px solid var(--hair);padding:26px;position:sticky;top:88px;}
+.os-title{font-family:'DM Serif Display',serif;font-size:19px;margin-bottom:18px;}
+.os-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14px;color:var(--ink-soft);}
+.os-item:last-of-type{border-bottom:none;}
+.os-total{display:flex;justify-content:space-between;font-weight:600;font-size:16px;padding-top:16px;border-top:2px solid var(--ink);}
+.btn-pay{width:100%;margin-top:22px;padding:16px;border-radius:100px;background:var(--sage);color:#fff;font-size:16px;font-weight:600;border:none;cursor:pointer;}
+.btn-pay:hover{background:#5e8078;}
+.secure-badge{display:flex;align-items:center;gap:6px;justify-content:center;font-size:12px;color:var(--ash);margin-top:12px;}
+@media(max-width:768px){.checkout-layout{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li></ul>
+    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="checkout-layout">
+    <div class="co-form">
+      <h2 class="serif">Delivery details</h2>
+      <div class="form-row">
+        <div class="form-group"><label>First name</label><input type="text" id="firstName" placeholder="Shubham" required></div>
+        <div class="form-group"><label>Last name</label><input type="text" id="lastName" placeholder="Pandey" required></div>
+      </div>
+      <div class="form-group"><label>Email address</label><input type="email" id="email" placeholder="you@email.com" required></div>
+      <div class="form-group"><label>Phone number</label><input type="tel" id="phone" placeholder="9XXXXXXXXX" required maxlength="10"></div>
+      <div class="form-group"><label>Address line 1</label><input type="text" id="addr1" placeholder="House/flat number, street" required></div>
+      <div class="form-group"><label>Address line 2 (optional)</label><input type="text" id="addr2" placeholder="Colony, landmark"></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input type="text" id="city" placeholder="New Delhi" required></div>
+        <div class="form-group"><label>Pincode</label><input type="text" id="pincode" placeholder="110001" maxlength="6" required oninput="fetchETA()"></div>
+      </div>
+      <div class="form-group"><label>State</label>
+        <select id="state">
+          <option value="">Select state</option>
+          <option>Delhi</option><option>Maharashtra</option><option>Karnataka</option><option>Tamil Nadu</option>
+          <option>Uttar Pradesh</option><option>Rajasthan</option><option>Haryana</option><option>Punjab</option>
+          <option>Gujarat</option><option>West Bengal</option><option>Telangana</option><option>Kerala</option>
+        </select>
+      </div>
+      <h2 class="serif" style="margin-top:32px;">Payment method</h2>
+      <div class="payment-options">
+        <div class="payment-opt selected" id="opt-prepaid" onclick="selectPayment('prepaid')">
+          <input type="radio" name="payment" value="prepaid" checked>
+          <label>💳 Prepaid (UPI / Card / Net Banking)</label>
+        </div>
+        <div class="payment-opt" id="opt-cod" onclick="selectPayment('cod')">
+          <input type="radio" name="payment" value="cod">
+          <label>💵 Cash on Delivery</label>
+        </div>
+      </div>
+      <div id="etaBox" style="font-size:13.5px;color:var(--sage);margin-bottom:16px;font-weight:500;"></div>
+    </div>
+
+    <div class="order-sidebar">
+      <div class="os-title serif">Order</div>
+      <div id="orderItems"></div>
+      <div id="orderTotals"></div>
+      <button class="btn-pay" id="payBtn" onclick="placeOrder()">Place Order →</button>
+      <div class="secure-badge">🔒 Secure checkout · Razorpay</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+let selectedPayment = 'prepaid';
+
+function selectPayment(method) {
+  selectedPayment = method;
+  document.querySelectorAll('.payment-opt').forEach(el => el.classList.remove('selected'));
+  document.getElementById('opt-' + method).classList.add('selected');
+  document.querySelector(`input[value="${method}"]`).checked = true;
+}
+
+function renderSidebar() {
+  const cart = getCart();
+  updateCartCount();
+  const subtotal = getCartTotal();
+  const gst = Math.round(subtotal * 0.18);
+  document.getElementById('orderItems').innerHTML = cart.map(item =>
+    `<div class="os-item"><span>${item.name.split('+')[0].trim()} ×${item.qty}</span><span>₹${item.price * item.qty}</span></div>`
+  ).join('');
+  document.getElementById('orderTotals').innerHTML = `
+    <div class="os-item"><span>Subtotal</span><span>₹${subtotal}</span></div>
+    <div class="os-item"><span>GST (18%)</span><span>₹${gst}</span></div>
+    <div class="os-item"><span>Shipping</span><span style="color:var(--green)">Free</span></div>
+    <div class="os-total"><span>Total</span><span>₹${subtotal + gst}</span></div>`;
+}
+
+async function fetchETA() {
+  const pin = document.getElementById('pincode').value.trim();
+  if (pin.length !== 6) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
+    const data = await res.json();
+    document.getElementById('etaBox').textContent = '🚚 ' + (data.message || 'Delivered in ' + data.air_days + ' business days');
+  } catch { document.getElementById('etaBox').textContent = '🚚 Delivered in 3–5 business days pan-India'; }
+}
+
+function getField(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function validate() {
+  const required = ['firstName','email','phone','addr1','city','pincode','state'];
+  for (const f of required) { if (!getField(f)) { showToast('Please fill all required fields'); return false; } }
+  if (getField('phone').length !== 10) { showToast('Enter a valid 10-digit phone number'); return false; }
+  if (getCart().length === 0) { showToast('Your cart is empty'); return false; }
+  return true;
+}
+
+async function placeOrder() {
+  if (!validate()) return;
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true; btn.textContent = 'Processing…';
+  const cart = getCart();
+  const subtotal = getCartTotal();
+  const gst = Math.round(subtotal * 0.18);
+  const total = subtotal + gst;
+
+  const orderPayload = {
+    customer_name: `${getField('firstName')} ${getField('lastName')}`,
+    customer_email: getField('email'),
+    customer_phone: getField('phone'),
+    address_line1: getField('addr1'),
+    address_line2: getField('addr2') || null,
+    city: getField('city'),
+    state: getField('state'),
+    pincode: getField('pincode'),
+    items: cart.map(i => ({ product_id: i.id, name: i.name, qty: i.qty, price: i.price })),
+    payment_method: selectedPayment
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/api/orders/`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(orderPayload) });
+    const order = await res.json();
+
+    if (selectedPayment === 'cod') {
+      saveCart([]);
+      location.href = `order-confirmed.html?order_id=${order.order_id}&method=cod`;
+      return;
+    }
+
+    // Razorpay prepaid
+    const options = {
+      key: window.__RAZORPAY_KEY__ || 'rzp_test_placeholder',
+      amount: total * 100,
+      currency: 'INR',
+      name: 'Lumère',
+      description: 'Skincare named after what\'s in it',
+      order_id: order.razorpay_order_id,
+      handler: async (response) => {
+        const verifyRes = await fetch(`${API_BASE}/api/payments/verify`, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            order_id: order.order_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature
+          })
+        });
+        if (verifyRes.ok) {
+          saveCart([]);
+          location.href = `order-confirmed.html?order_id=${order.order_id}&method=prepaid`;
+        }
+      },
+      prefill: { name: orderPayload.customer_name, email: orderPayload.customer_email, contact: orderPayload.customer_phone },
+      theme: { color: '#7A9E94' }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    showToast('Something went wrong. Please try again.');
+    console.error(err);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Place Order →';
+  }
+}
+
+renderSidebar();
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order — Lumère</title>
+<link rel="stylesheet" href="styles/global.css">
+<style>
+.track-wrap{max-width:640px;margin:0 auto;padding:60px 24px 80px;}
+.track-wrap h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,40px);margin-bottom:8px;}
+.track-wrap h1 em{font-style:italic;color:var(--sage);}
+.track-search{display:flex;gap:12px;margin:28px 0;}
+.track-search input{flex:1;padding:13px 16px;border:1px solid var(--hair);border-radius:100px;font-size:15px;outline:none;font-family:'DM Sans',sans-serif;}
+.track-search input:focus{border-color:var(--sage);}
+.track-search button{padding:13px 26px;border-radius:100px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:14.5px;font-weight:500;}
+.track-result{background:var(--white);border:1px solid var(--hair);border-radius:16px;padding:28px;margin-top:20px;}
+.tr-status{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--sage);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.tr-courier{font-size:14px;color:var(--ash);margin-bottom:20px;}
+.tr-events{display:flex;flex-direction:column;gap:12px;}
+.tr-event{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--hair);}
+.tr-event:last-child{border-bottom:none;}
+.tr-dot{width:10px;height:10px;border-radius:50%;background:var(--sage);margin-top:5px;flex:none;}
+.tr-event-body .ev-msg{font-size:14.5px;color:var(--ink);}
+.tr-event-body .ev-time{font-size:12px;color:var(--ash);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.tr-empty{text-align:center;padding:30px;color:var(--ash);}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li></ul>
+    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+  </div>
+</nav>
+
+<div class="track-wrap">
+  <h1 class="serif">Track your <em>order</em></h1>
+  <p style="color:var(--ink-soft);font-size:15px;">Enter your AWB (tracking) number from the shipping confirmation email.</p>
+  <div class="track-search">
+    <input type="text" id="awbInput" placeholder="AWB tracking number or Order ID" value="">
+    <button onclick="trackOrder()">Track</button>
+  </div>
+  <div id="trackResult"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const preOrderId = params.get('order_id');
+if (preOrderId) { document.getElementById('awbInput').value = preOrderId; }
+updateCartCount();
+
+async function trackOrder() {
+  const awb = document.getElementById('awbInput').value.trim();
+  if (!awb) { return; }
+  const result = document.getElementById('trackResult');
+  result.innerHTML = '<div class="tr-empty">Fetching tracking info…</div>';
+  try {
+    const res = await fetch(`${API_BASE}/api/shipping/track/${awb}`);
+    if (!res.ok) throw new Error('not found');
+    const data = await res.json();
+    result.innerHTML = `
+      <div class="track-result">
+        <div class="tr-status">${data.status || 'In transit'}</div>
+        <div class="tr-courier">Courier: ${data.courier || '—'} · AWB: ${data.awb || awb}</div>
+        ${data.estimated_delivery ? `<div style="font-size:14px;color:var(--green);margin-bottom:16px;font-weight:500;">📦 Expected delivery: ${data.estimated_delivery}</div>` : ''}
+        <div class="tr-events">
+          ${(data.events || []).map(ev => `
+            <div class="tr-event">
+              <div class="tr-dot"></div>
+              <div class="tr-event-body">
+                <div class="ev-msg">${ev.activity || ev.status || ''}</div>
+                <div class="ev-time">${ev.date || ev.timestamp || ''} · ${ev.location || ''}</div>
+              </div>
+            </div>
+          `).join('') || '<div class="tr-empty">No tracking events yet. Check back soon.</div>'}
+        </div>
+      </div>`;
+  } catch {
+    result.innerHTML = `<div class="track-result"><div class="tr-empty">No tracking information found for this AWB. Make sure your order has shipped — you'll receive an SMS with your tracking number once dispatched.</div></div>`;
+  }
+}
+</script>
+</body>
+</html>
