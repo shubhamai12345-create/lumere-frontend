@@ -1,6 +1,12 @@
-// ─── Runtime config — update these after Railway deploys ───
-// This file is the ONLY place you update credentials for the frontend.
-// Replace both values, save, re-push to GitHub, Vercel auto-deploys.
+// ─── Lumère Runtime Config ───────────────────────────────────────────
+// Update BOTH values after Railway deploys your backend.
+// Then git push — Vercel/GitHub Pages auto-redeploys.
 
 window.__LUMERE_API__   = 'https://lumere-backend-production.up.railway.app';
-window.__RAZORPAY_KEY__ = 'rzp_test_REPLACE_WITH_YOUR_KEY_ID';
+window.__RAZORPAY_KEY__ = 'rzp_test_T95pyh58x2yzEM';
+
+// ─── Odoo connection (used by backend, not frontend) ─────────────────
+// ODOO_URL      = https://lumere.odoo.com
+// ODOO_DB       = lumere
+// ODOO_USERNAME = shubhamai12345@gmail.com
+// ODOO_API_KEY  = <create at lumere.odoo.com > Settings > Users > API Keys>
