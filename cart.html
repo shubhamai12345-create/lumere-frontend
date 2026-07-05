@@ -1,131 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cart — Lumère</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+:root{--ink:#0F0F0F;--pearl:#FAF8F4;--white:#fff;--sage:#5C8C7A;--gold:#B8864E;--hair:#E5E2DC;--ash:#888;}
 body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
 a{text-decoration:none;color:inherit;}
-nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
 .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
 .nav-logo span{font-style:italic;color:var(--sage);}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
 .cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
 .cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
 .container{max-width:1200px;margin:0 auto;padding:0 32px;}
-.page-head{padding:48px 0 32px;border-bottom:1px solid var(--hair);}
-.page-head h1{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px);font-weight:700;}
-.page-head h1 em{font-style:italic;color:var(--sage);}
-.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:40px 0 80px;align-items:start;}
-.cart-items{display:flex;flex-direction:column;gap:0;}
-.cart-item{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--hair);align-items:flex-start;}
-.ci-swatch{width:64px;height:64px;background:var(--ink2);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;color:rgba(255,255,255,.5);text-align:center;padding:6px;flex:none;}
+.page-header{padding:96px 0 40px;border-bottom:1px solid var(--hair);}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:900;}
+.page-title em{font-style:italic;color:var(--sage);}
+.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:48px 0 80px;align-items:start;}
+.cart-items{display:flex;flex-direction:column;gap:1px;background:var(--hair);}
+.cart-item{background:var(--white);padding:24px;display:flex;gap:20px;align-items:flex-start;}
+.ci-swatch{width:64px;height:80px;display:flex;align-items:center;justify-content:center;flex:none;}
 .ci-body{flex:1;}
-.ci-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.ci-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
 .ci-price{font-size:13.5px;color:var(--ash);margin-bottom:14px;}
-.ci-qty{display:flex;align-items:center;gap:0;border:1.5px solid var(--hair);width:fit-content;}
-.ci-qbtn{width:34px;height:34px;background:none;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.ci-qbtn:hover{background:var(--pearl);}
-.ci-qnum{width:38px;text-align:center;font-weight:600;font-size:14px;}
-.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
-.ci-total{font-size:17px;font-weight:700;}
-.ci-remove{background:none;border:none;font-size:12px;color:var(--ash);cursor:pointer;text-decoration:underline;}
+.ci-qty-row{display:flex;align-items:center;gap:10px;}
+.cq-btn{width:32px;height:32px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.cq-btn:hover{border-color:var(--ink);}
+.cq-num{font-weight:600;font-size:15px;min-width:24px;text-align:center;}
+.ci-remove{margin-left:auto;background:none;border:none;font-size:11.5px;color:var(--ash);cursor:pointer;align-self:flex-start;padding:2px 0;}
 .ci-remove:hover{color:var(--ink);}
-/* Summary */
-.order-summary{background:var(--white);border:1.5px solid var(--hair);padding:28px;position:sticky;top:80px;}
-.os-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:22px;}
-.os-row{display:flex;justify-content:space-between;font-size:14.5px;color:var(--ash);margin-bottom:12px;}
-.os-row.total{font-weight:700;font-size:17px;color:var(--ink);border-top:1.5px solid var(--ink);padding-top:16px;margin-top:8px;}
-.pincode-row{display:flex;gap:8px;margin:16px 0;}
-.pincode-row input{flex:1;padding:10px 14px;border:1.5px solid var(--hair);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
-.pincode-row input:focus{border-color:var(--sage);}
-.pincode-row button{padding:10px 16px;background:var(--ink);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;}
-.eta-msg{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sage);margin-bottom:14px;min-height:18px;}
-.free-ship{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);margin-bottom:18px;}
-.btn-checkout{width:100%;background:var(--sage);color:#fff;padding:15px;font-size:15px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.cart-summary{background:var(--white);border:1px solid var(--hair);padding:28px;position:sticky;top:80px;}
+.cs-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:24px;}
+.cs-row{display:flex;justify-content:space-between;font-size:14px;color:var(--ash);margin-bottom:12px;}
+.cs-total{display:flex;justify-content:space-between;font-size:17px;font-weight:700;color:var(--ink);border-top:2px solid var(--ink);padding-top:16px;margin-top:8px;margin-bottom:8px;}
+.cs-free{font-size:12.5px;color:var(--sage);text-align:center;margin-bottom:20px;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;}
+.btn-checkout{width:100%;padding:16px;background:var(--sage);color:#fff;font-size:15px;font-weight:700;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
 .btn-checkout:hover{background:#4a7565;}
-.empty-state{text-align:center;padding:100px 0;}
-.empty-state h2{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:14px;}
+.pin-row{display:flex;gap:10px;margin-bottom:16px;}
+.pin-row input{flex:1;padding:10px 14px;border:1.5px solid var(--hair);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
+.pin-row input:focus{border-color:var(--sage);}
+.pin-row button{padding:10px 16px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:13px;}
+.pin-row button:hover{border-color:var(--ink);}
+.pin-eta{font-size:12.5px;color:var(--sage);margin-bottom:14px;min-height:16px;}
+.empty-state{text-align:center;padding:80px 20px;}
+.empty-state h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:14px;}
 .empty-state p{color:var(--ash);margin-bottom:28px;}
-.btn-shop{background:var(--ink);color:#fff;padding:14px 32px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
-.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;}
+.btn-shop{background:var(--ink);color:#fff;padding:13px 32px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
-@media(max-width:768px){.cart-layout{grid-template-columns:1fr;}}
-@media(max-width:600px){.container{padding:0 20px;}}
+@media(max-width:900px){.cart-layout{grid-template-columns:1fr;}}
+@media(max-width:600px){.container{padding:0 20px;}.page-header{padding:80px 0 32px;}}
 </style>
 </head>
 <body>
 <nav>
   <div class="nav-inner">
     <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
-    <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
+    <div class="nav-right">
+      <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
+      <button class="btn-nav" onclick="location.href='shop.html'">Shop</button>
+    </div>
   </div>
 </nav>
-<div class="page-head"><div class="container"><h1>Your <em>Cart</em></h1></div></div>
-<div class="container" id="cartWrap"></div>
+<div class="container">
+  <div class="page-header"><h1 class="page-title">Your <em>Cart</em></h1></div>
+  <div id="cartContainer"></div>
+</div>
 <div class="toast" id="toast"></div>
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script>
 function render(){
-  const cart=getCart(), wrap=document.getElementById('cartWrap');
-  updateCartCount();
+  const cart=getCart(); updateCartCount();
+  const el=document.getElementById('cartContainer');
   if(!cart.length){
-    wrap.innerHTML='<div class="empty-state"><h2>Your cart is empty</h2><p>Find a formula that works for your skin.</p><button class="btn-shop" onclick="location.href=\'shop.html\'">Shop now</button></div>';
+    el.innerHTML='<div class="empty-state"><h2>Your cart is empty</h2><p>Discover actives that are right for your skin.</p><button class="btn-shop" onclick="location.href=\'shop.html\'">Shop now</button></div>';
     return;
   }
-  const sub=getCartTotal(),gst=Math.round(sub*.18),total=sub+gst;
-  wrap.innerHTML=`
-  <div class="cart-layout">
+  const sub=getCartTotal(), gst=Math.round(sub*.18), total=sub+gst;
+  el.innerHTML=`<div class="cart-layout">
     <div class="cart-items">
-      ${cart.map(item=>{const p=PRODUCTS.find(x=>x.id===item.id)||{};return`
-      <div class="cart-item">
-        <div class="ci-swatch">${item.name.split('+')[0].trim().substring(0,12)}</div>
-        <div class="ci-body">
-          <div class="ci-name">${item.name}</div>
-          <div class="ci-price">₹${item.price} · 30ml</div>
-          <div class="ci-qty">
-            <button class="ci-qbtn" onclick="chQty('${item.id}',-1)">−</button>
-            <span class="ci-qnum">${item.qty}</span>
-            <button class="ci-qbtn" onclick="chQty('${item.id}',1)">+</button>
+      ${cart.map(item=>{
+        const p=PRODUCTS.find(x=>x.id===item.id)||{};
+        return `<div class="cart-item">
+          <div class="ci-swatch" style="background:${p.accent||'#eee'}22;border:1px solid ${p.accent||'#eee'}33">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;color:${p.accent||'#888'};text-align:center;line-height:1.4;">${item.name.split('+')[0].trim()}</span>
           </div>
-        </div>
-        <div class="ci-right">
-          <span class="ci-total">₹${item.price*item.qty}</span>
-          <button class="ci-remove" onclick="rmItem('${item.id}')">Remove</button>
-        </div>
-      </div>`}).join('')}
+          <div class="ci-body">
+            <div class="ci-name">${item.name}</div>
+            <div class="ci-price">₹${item.price} · 30ml</div>
+            <div class="ci-qty-row">
+              <button class="cq-btn" onclick="changeQty('${item.id}',-1)">−</button>
+              <span class="cq-num">${item.qty}</span>
+              <button class="cq-btn" onclick="changeQty('${item.id}',1)">+</button>
+            </div>
+          </div>
+          <button class="ci-remove" onclick="removeItem('${item.id}')">Remove ×</button>
+        </div>`;
+      }).join('')}
     </div>
-    <div class="order-summary">
-      <div class="os-title">Order Summary</div>
-      <div class="os-row"><span>Subtotal</span><span>₹${sub}</span></div>
-      <div class="os-row"><span>GST (18%)</span><span>₹${gst}</span></div>
-      <div class="os-row"><span>Shipping</span><span style="color:var(--sage)">Free</span></div>
-      <div class="os-row total"><span>Total</span><span>₹${total}</span></div>
-      <div class="pincode-row">
-        <input type="text" id="pin" placeholder="Check delivery pincode" maxlength="6">
-        <button onclick="chkETA()">Check</button>
+    <div class="cart-summary">
+      <div class="cs-title">Order Summary</div>
+      <div class="cs-row"><span>Subtotal</span><span>₹${sub}</span></div>
+      <div class="cs-row"><span>GST (18%)</span><span>₹${gst}</span></div>
+      <div class="cs-row"><span>Shipping</span><span style="color:var(--sage)">Free</span></div>
+      <div class="cs-total"><span>Total</span><span>₹${total}</span></div>
+      <div class="cs-free">📦 Free pan-India delivery · COD available</div>
+      <div class="pin-row">
+        <input type="text" id="pinInput" placeholder="Check delivery ETA" maxlength="6">
+        <button onclick="checkETA()">Check</button>
       </div>
-      <div class="eta-msg" id="eta"></div>
-      <div class="free-ship">📦 Free delivery on all orders · COD available</div>
+      <div class="pin-eta" id="pinEta"></div>
       <button class="btn-checkout" onclick="location.href='checkout.html'">Proceed to checkout →</button>
     </div>
   </div>`;
 }
-function chQty(id,d){const c=getCart(),i=c.find(x=>x.id===id);if(!i)return;i.qty=Math.max(0,i.qty+d);saveCart(c.filter(x=>x.qty>0));render();}
-function rmItem(id){saveCart(getCart().filter(x=>x.id!==id));render();}
-async function chkETA(){
-  const pin=document.getElementById('pin').value.trim();
-  if(pin.length!==6)return;
-  document.getElementById('eta').textContent='Checking…';
+function changeQty(id,d){const c=getCart();const i=c.find(x=>x.id===id);if(i){i.qty=Math.max(0,i.qty+d);}saveCart(c.filter(x=>x.qty>0));render();}
+function removeItem(id){saveCart(getCart().filter(x=>x.id!==id));render();}
+async function checkETA(){
+  const pin=document.getElementById('pinInput').value.trim();
+  if(pin.length!==6){showToast('Enter a 6-digit pincode');return;}
+  document.getElementById('pinEta').textContent='Checking…';
   try{
     const r=await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
     const d=await r.json();
-    document.getElementById('eta').textContent='🚚 '+(d.message||`Delivered in ${d.air_days} business days`);
-  }catch{document.getElementById('eta').textContent='🚚 Delivered in 3–5 business days pan-India';}
+    document.getElementById('pinEta').textContent='🚚 '+(d.message||`Delivered in ${d.air_days} business days`);
+  }catch{document.getElementById('pinEta').textContent='🚚 3–5 business days pan-India';}
 }
 render();
 </script>

@@ -7,60 +7,61 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+:root{--ink:#0F0F0F;--ink2:#1E1E1E;--pearl:#FAF8F4;--white:#fff;--sage:#5C8C7A;--sage-lt:#EAF1EE;--gold:#B8864E;--hair:#E5E2DC;--ash:#888;}
 body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
 a{text-decoration:none;color:inherit;}
-nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
 .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
 .nav-logo span{font-style:italic;color:var(--sage);}
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{font-size:13.5px;font-weight:500;color:var(--ash);}
+.nav-links a:hover{color:var(--ink);}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.btn-nav:hover{background:var(--sage);}
 .cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
 .cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
 .container{max-width:1200px;margin:0 auto;padding:0 32px;}
-.breadcrumb{padding:20px 0;font-size:13px;color:var(--ash);}
+.breadcrumb{padding:80px 0 0;font-size:13px;color:var(--ash);}
 .breadcrumb a{color:var(--sage);}
-.product-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:40px 0 96px;align-items:start;}
-/* Visual */
-.pl-visual{position:sticky;top:80px;}
-.pl-visual-card{background:var(--ink2);aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-.pl-visual-card::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(92,140,122,.15) 0,transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%);}
-.bottle-wrap{text-align:center;position:relative;z-index:1;}
-.bottle{width:80px;height:130px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px 8px 16px 16px;margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;padding:10px 8px;position:relative;}
-.bottle-cap{width:24px;height:10px;border-radius:3px 3px 0 0;background:var(--accent,#5C8C7A);margin-bottom:8px;flex:none;}
-.bottle-label{font-family:'IBM Plex Mono',monospace;font-size:5.5px;font-weight:600;color:rgba(255,255,255,.7);text-align:center;line-height:1.6;letter-spacing:.05em;}
-.bottle-name{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.08em;}
-/* Info */
-.pl-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
-.pl-name{font-family:'IBM Plex Mono',monospace;font-size:clamp(20px,2.5vw,28px);font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:16px;}
-.pl-desc{font-size:16px;line-height:1.7;color:var(--ash);margin-bottom:28px;}
-.price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:28px;}
-.pl-price{font-size:32px;font-weight:700;}
-.pl-mrp{font-size:18px;color:var(--ash);text-decoration:line-through;}
-.pl-vol{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ash);}
-.qty-add{display:flex;gap:12px;align-items:center;margin-bottom:20px;}
-.qty-wrap{display:flex;align-items:center;gap:0;border:1.5px solid var(--hair);}
-.qty-btn{width:38px;height:44px;background:none;border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.qty-btn:hover{background:var(--pearl);}
-.qty-num{width:44px;text-align:center;font-weight:600;font-size:15px;}
-.btn-cart{flex:1;background:var(--ink);color:#fff;padding:0 28px;height:44px;font-size:14px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
-.btn-cart:hover{background:var(--sage);}
-.delivery-note{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--sage);background:rgba(92,140,122,.08);padding:10px 14px;margin-bottom:32px;}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;}
-.stat-box{border:1.5px solid var(--hair);padding:16px;}
-.stat-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:5px;}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--ink);}
-.pl-section{padding:24px 0;border-top:1px solid var(--hair);}
-.pl-section h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:14px;}
-.tags-wrap{display:flex;gap:8px;flex-wrap:wrap;}
-.tag{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:5px 13px;border:1px solid var(--hair);color:var(--ash);}
-.inci-text{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ash);line-height:1.9;}
-.how-text{font-size:15px;color:var(--ash);line-height:1.75;}
-.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;}
+.product-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:40px 0 80px;align-items:start;}
+.product-visual{position:sticky;top:80px;}
+.visual-card{aspect-ratio:4/5;background:var(--ink2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;}
+.bottle-lg{width:80px;height:140px;background:var(--white);display:flex;flex-direction:column;align-items:center;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;}
+.bottle-cap{width:28px;height:14px;margin-bottom:6px;flex:none;}
+.bottle-label{flex:1;width:100%;background:var(--pearl);display:flex;align-items:center;justify-content:center;padding:6px;}
+.bottle-text{font-family:'IBM Plex Mono',monospace;font-size:5px;font-weight:600;color:var(--ink);text-align:center;line-height:1.5;}
+.visual-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);}
+.product-info{padding-top:8px;}
+.pi-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
+.pi-name{font-family:'IBM Plex Mono',monospace;font-size:clamp(20px,2.5vw,28px);font-weight:600;line-height:1.25;color:var(--ink);margin-bottom:16px;}
+.pi-desc{font-size:16px;line-height:1.75;color:var(--ash);margin-bottom:28px;}
+.pi-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;}
+.pi-price{font-size:32px;font-weight:700;color:var(--ink);}
+.pi-mrp{font-size:16px;color:var(--ash);text-decoration:line-through;}
+.pi-vol{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
+.pi-supply{font-size:13px;color:var(--sage);margin-bottom:28px;}
+.qty-row{display:flex;gap:12px;align-items:center;margin-bottom:20px;}
+.qty-btn{width:40px;height:40px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:18px;font-weight:300;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qty-btn:hover{border-color:var(--ink);background:var(--white);}
+.qty-num{font-weight:600;font-size:16px;min-width:28px;text-align:center;}
+.btn-add-full{flex:1;padding:14px 32px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.btn-add-full:hover{background:var(--sage);}
+.pi-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;}
+.pi-stat{background:var(--white);border:1px solid var(--hair);padding:16px 18px;}
+.pi-stat-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);margin-bottom:5px;}
+.pi-stat-value{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--sage);}
+.pi-section{border-top:1px solid var(--hair);padding:24px 0;}
+.pi-section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.pi-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.pi-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 12px;background:var(--sage-lt);color:var(--sage);border:1px solid rgba(92,140,122,.2);}
+.pi-inci{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ash);line-height:1.9;}
+.pi-howto{font-size:14.5px;color:var(--ash);line-height:1.8;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
-@media(max-width:900px){.product-layout{grid-template-columns:1fr;gap:40px;}.pl-visual{position:relative;top:0;}}
-@media(max-width:600px){.nav-links{display:none;}.container{padding:0 20px;}}
+@media(max-width:900px){.product-layout{grid-template-columns:1fr;gap:40px;}.product-visual{position:relative;top:0;}.visual-card{aspect-ratio:unset;height:260px;}.nav-links{display:none;}}
+@media(max-width:600px){.container{padding:0 20px;}.pi-stats{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -68,11 +69,14 @@ nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.9
   <div class="nav-inner">
     <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
     <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
-    <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
+    <div class="nav-right">
+      <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
+      <button class="btn-nav" onclick="location.href='cart.html'">Cart</button>
+    </div>
   </div>
 </nav>
 <div class="container">
-  <div class="breadcrumb"><a href="shop.html">Shop</a> → <span id="bc"></span></div>
+  <div class="breadcrumb"><a href="shop.html">Shop</a> / <span id="breadcrumbName"></span></div>
   <div class="product-layout" id="productLayout"></div>
 </div>
 <div class="toast" id="toast"></div>
@@ -83,53 +87,51 @@ const id=new URLSearchParams(location.search).get('id');
 const p=PRODUCTS.find(x=>x.id===id);
 updateCartCount();
 if(!p){
-  document.getElementById('productLayout').innerHTML='<div style="padding:80px 0;color:#888">Product not found. <a href="shop.html" style="color:#5C8C7A">← Back to shop</a></div>';
+  document.getElementById('productLayout').innerHTML='<div style="padding:60px 0;color:var(--ash)">Product not found. <a href="shop.html" style="color:var(--sage)">Back to shop</a></div>';
 }else{
   document.title=p.name+' — Lumère';
-  document.getElementById('bc').textContent=p.name;
+  document.getElementById('breadcrumbName').textContent=p.name.split('+')[0].trim();
   let qty=1;
-  function upQty(){document.getElementById('qn').textContent=qty;}
   document.getElementById('productLayout').innerHTML=`
-  <div class="pl-visual">
-    <div class="pl-visual-card">
-      <div class="bottle-wrap">
-        <div class="bottle">
+    <div class="product-visual">
+      <div class="visual-card" style="background:${p.accent}18">
+        <div class="bottle-lg">
           <div class="bottle-cap" style="background:${p.accent}"></div>
-          <div class="bottle-label">${p.active.split(',')[0].trim()}</div>
+          <div class="bottle-label"><div class="bottle-text">${p.active.split(',')[0].trim()}<br>Serum</div></div>
         </div>
-        <div class="bottle-name">Lumère</div>
+        <div class="visual-badge">${p.badge}</div>
       </div>
     </div>
-  </div>
-  <div class="pl-info">
-    <div class="pl-kicker">${p.tagline}</div>
-    <div class="pl-name">${p.name}</div>
-    <p class="pl-desc">${p.desc}</p>
-    <div class="price-row">
-      <span class="pl-price">₹${p.price}</span>
-      <span class="pl-mrp">₹${p.mrp}</span>
-      <span class="pl-vol">${p.volume}</span>
-    </div>
-    <div class="qty-add">
-      <div class="qty-wrap">
-        <button class="qty-btn" onclick="if(qty>1){qty--;upQty();}">−</button>
-        <span class="qty-num" id="qn">1</span>
-        <button class="qty-btn" onclick="qty++;upQty();">+</button>
+    <div class="product-info">
+      <div class="pi-kicker">${p.tagline}</div>
+      <div class="pi-name">${p.name}</div>
+      <p class="pi-desc">${p.desc}</p>
+      <div class="pi-price-row">
+        <span class="pi-price">₹${p.price}</span>
+        <span class="pi-mrp">₹${p.mrp}</span>
+        <span class="pi-vol">${p.volume}</span>
       </div>
-      <button class="btn-cart" onclick="addToCart('${p.id}',qty);location.href='cart.html'">Add to cart</button>
-    </div>
-    <div class="delivery-note">📦 Free delivery · COD available · Dispatched from Delhi in 1–2 days</div>
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-label">Concentration</div><div class="stat-val">${p.active.split(',')[0].trim()}</div></div>
-      <div class="stat-box"><div class="stat-label">pH range</div><div class="stat-val">${p.ph}</div></div>
-      <div class="stat-box"><div class="stat-label">Size</div><div class="stat-val">${p.volume}</div></div>
-      <div class="stat-box"><div class="stat-label">Supply</div><div class="stat-val">~90 days</div></div>
-    </div>
-    <div class="pl-section"><h3>Best for</h3><div class="tags-wrap">${p.skintypes.map(s=>`<span class="tag">${s}</span>`).join('')}</div></div>
-    <div class="pl-section"><h3>Targets</h3><div class="tags-wrap">${p.concerns.map(c=>`<span class="tag">${c}</span>`).join('')}</div></div>
-    <div class="pl-section"><h3>How to use</h3><p class="how-text">${p.howToUse}</p></div>
-    <div class="pl-section"><h3>Full INCI</h3><div class="inci-text">${p.inci}</div></div>
-  </div>`;
+      <div class="pi-supply">~90 days supply · Free delivery</div>
+      <div class="qty-row">
+        <button class="qty-btn" id="qMinus">−</button>
+        <span class="qty-num" id="qtyNum">1</span>
+        <button class="qty-btn" id="qPlus">+</button>
+        <button class="btn-add-full" id="addBtn">Add to cart</button>
+      </div>
+      <div class="pi-stats">
+        <div class="pi-stat"><div class="pi-stat-label">Active</div><div class="pi-stat-value">${p.active.split(',')[0].split(' ').slice(-1)[0]}</div></div>
+        <div class="pi-stat"><div class="pi-stat-label">pH range</div><div class="pi-stat-value">${p.ph}</div></div>
+        <div class="pi-stat"><div class="pi-stat-label">Size</div><div class="pi-stat-value">${p.volume}</div></div>
+        <div class="pi-stat"><div class="pi-stat-label">Supply</div><div class="pi-stat-value">~90 days</div></div>
+      </div>
+      <div class="pi-section"><div class="pi-section-title">Best for</div><div class="pi-tags">${p.skintypes.map(s=>`<span class="pi-tag">${s}</span>`).join('')}</div></div>
+      <div class="pi-section"><div class="pi-section-title">Targets</div><div class="pi-tags">${p.concerns.map(c=>`<span class="pi-tag">${c}</span>`).join('')}</div></div>
+      <div class="pi-section"><div class="pi-section-title">How to use</div><p class="pi-howto">${p.howToUse}</p></div>
+      <div class="pi-section"><div class="pi-section-title">Full INCI list</div><p class="pi-inci">${p.inci}</p></div>
+    </div>`;
+  document.getElementById('qMinus').onclick=()=>{if(qty>1){qty--;document.getElementById('qtyNum').textContent=qty;}};
+  document.getElementById('qPlus').onclick=()=>{qty++;document.getElementById('qtyNum').textContent=qty;};
+  document.getElementById('addBtn').onclick=()=>addToCart(p.id,qty);
 }
 </script>
 </body>

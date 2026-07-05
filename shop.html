@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop — Lumère</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+:root{--ink:#0F0F0F;--ink2:#1E1E1E;--pearl:#FAF8F4;--white:#fff;--sage:#5C8C7A;--sage-lt:#EAF1EE;--gold:#B8864E;--hair:#E5E2DC;--ash:#888;}
 body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
 a{text-decoration:none;color:inherit;}
-nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
 .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
 .nav-logo span{font-style:italic;color:var(--sage);}
@@ -18,33 +18,35 @@ nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.9
 .nav-links a{font-size:13.5px;font-weight:500;color:var(--ash);}
 .nav-links a:hover{color:var(--ink);}
 .nav-right{display:flex;gap:12px;align-items:center;}
+.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.btn-nav:hover{background:var(--sage);}
 .cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
 .cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
-.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.page-header{padding:120px 32px 56px;max-width:1200px;margin:0 auto;border-bottom:1px solid var(--hair);}
+.page-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;display:block;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,56px);font-weight:900;line-height:1.1;}
+.page-title em{font-style:italic;color:var(--sage);}
+.page-sub{font-size:15.5px;color:var(--ash);margin-top:14px;max-width:480px;line-height:1.7;}
 .container{max-width:1200px;margin:0 auto;padding:0 32px;}
-.page-hero{background:var(--ink2);padding:80px 0 60px;}
-.page-hero .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;display:block;}
-.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,64px);font-weight:900;color:#fff;line-height:1.08;}
-.page-hero h1 em{font-style:italic;color:var(--sage);}
-.page-hero p{font-size:16px;color:rgba(255,255,255,.5);margin-top:14px;max-width:480px;line-height:1.7;}
-.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);margin:48px 0 80px;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);margin:0;}
 .product-card{background:var(--white);padding:40px 32px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
 .product-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sage);transform:scaleX(0);transition:transform .3s;}
 .product-card:hover{background:var(--pearl);}
 .product-card:hover::before{transform:scaleX(1);}
-.pc-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--hair);margin-bottom:20px;}
+.pc-num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--hair);margin-bottom:20px;}
 .pc-formula{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
 .pc-name{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:12px;}
 .pc-desc{font-size:14px;line-height:1.65;color:var(--ash);margin-bottom:28px;}
 .pc-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair);padding-top:20px;}
 .pc-price{font-size:22px;font-weight:700;color:var(--ink);}
 .pc-vol{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ash);margin-top:2px;}
-.btn-add{background:var(--ink);color:#fff;padding:10px 22px;font-size:12.5px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;}
+.btn-add{background:var(--ink);color:#fff;padding:10px 22px;font-size:12.5px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
 .btn-add:hover{background:var(--sage);}
-.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;}
+.shop-wrap{padding:0 0 80px;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
-@media(max-width:900px){.products-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.products-grid{grid-template-columns:1fr;}.nav-links{display:none;}.container{padding:0 20px;}}
+@media(max-width:900px){.products-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr;}.container{padding:0 20px;}.page-header{padding:100px 20px 40px;}}
 </style>
 </head>
 <body>
@@ -58,14 +60,12 @@ nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.9
     </div>
   </div>
 </nav>
-<div class="page-hero">
-  <div class="container">
-    <span class="kicker">Lumère formulas</span>
-    <h1>Three actives.<br><em>Zero guesswork.</em></h1>
-    <p>Named by what's in them. Tested before they're sold. Made for Indian skin.</p>
-  </div>
+<div class="page-header">
+  <span class="page-kicker">Lumère formulas</span>
+  <h1 class="page-title">Three actives.<br><em>Zero guesswork.</em></h1>
+  <p class="page-sub">Named by what's in them. Concentration on the label. Tested before they ship. Made for Indian skin.</p>
 </div>
-<div class="container">
+<div class="shop-wrap">
   <div class="products-grid" id="productsGrid"></div>
 </div>
 <div class="toast" id="toast"></div>

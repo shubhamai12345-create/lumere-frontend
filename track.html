@@ -1,76 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Track Order — Lumère</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--ink:#0F0F0F;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--ash:#888;--hair:#E5E2DC;}
+:root{--ink:#0F0F0F;--pearl:#FAF8F4;--white:#fff;--sage:#5C8C7A;--hair:#E5E2DC;--ash:#888;}
 body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
-nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;padding:0 32px;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
 .nav-logo span{font-style:italic;color:var(--sage);}
-.wrap{max-width:640px;margin:0 auto;padding:64px 32px 80px;}
-.kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:12px;display:block;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,44px);font-weight:700;margin-bottom:8px;}
-h1 em{font-style:italic;color:var(--sage);}
-.sub{font-size:15px;color:var(--ash);margin-bottom:28px;}
-.search-row{display:flex;gap:0;margin-bottom:40px;}
-.search-row input{flex:1;padding:13px 16px;border:1.5px solid var(--hair);font-size:15px;font-family:'Inter',sans-serif;outline:none;border-right:none;}
-.search-row input:focus{border-color:var(--sage);}
-.search-row button{padding:13px 24px;background:var(--ink);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;}
-.search-row button:hover{background:var(--sage);}
-.track-result{background:var(--white);border:1.5px solid var(--hair);padding:28px;}
-.tr-status{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:6px;}
-.tr-courier{font-size:14px;color:var(--ash);margin-bottom:20px;}
-.tr-eta{font-size:14px;color:var(--sage);font-weight:600;margin-bottom:20px;}
-.tr-events{display:flex;flex-direction:column;}
-.tr-ev{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--hair);}
-.tr-ev:last-child{border-bottom:none;}
-.tr-dot{width:10px;height:10px;border-radius:50%;background:var(--sage);flex:none;margin-top:5px;}
-.tr-ev-msg{font-size:14.5px;color:var(--ink);margin-bottom:3px;}
-.tr-ev-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
-.tr-empty{color:var(--ash);font-size:15px;text-align:center;padding:28px;}
-@media(max-width:600px){.wrap{padding:48px 20px;}}
+.track-wrap{max-width:640px;margin:0 auto;padding:100px 32px 80px;}
+.page-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:12px;display:block;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;margin-bottom:10px;}
+.page-title em{font-style:italic;color:var(--sage);}
+.page-sub{font-size:15px;color:var(--ash);margin-bottom:28px;}
+.track-bar{display:flex;gap:12px;margin-bottom:32px;}
+.track-bar input{flex:1;padding:13px 16px;border:1.5px solid var(--hair);font-size:14.5px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.track-bar input:focus{border-color:var(--sage);}
+.track-bar button{padding:13px 24px;background:var(--ink);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;}
+.track-bar button:hover{background:var(--sage);}
+.track-result{background:var(--white);border:1px solid var(--hair);padding:28px;}
+.tr-status{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;}
+.tr-courier{font-size:13.5px;color:var(--ash);margin-bottom:20px;}
+.tr-events{display:flex;flex-direction:column;gap:0;}
+.tr-event{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--hair);}
+.tr-event:last-child{border-bottom:none;}
+.tr-dot{width:8px;height:8px;border-radius:50%;background:var(--sage);margin-top:6px;flex:none;}
+.tr-msg{font-size:14px;color:var(--ink);}
+.tr-time{font-size:11.5px;color:var(--ash);font-family:'IBM Plex Mono',monospace;margin-top:3px;}
+.tr-empty{text-align:center;padding:28px;color:var(--ash);font-size:14px;}
+@media(max-width:600px){.track-wrap{padding:80px 20px 60px;}.track-bar{flex-direction:column;}}
 </style>
 </head>
 <body>
-<nav><div class="nav-inner"><div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div></div></nav>
-<div class="wrap">
-  <span class="kicker">Order status</span>
-  <h1>Track your <em>order</em></h1>
-  <p class="sub">Enter the AWB number from your shipping confirmation SMS, or your Order ID.</p>
-  <div class="search-row">
-    <input type="text" id="awbInput" placeholder="AWB number or Order ID">
-    <button onclick="track()">Track</button>
+<nav><div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div></nav>
+<div class="track-wrap">
+  <span class="page-kicker">Order tracking</span>
+  <h1 class="page-title">Track your <em>order</em></h1>
+  <p class="page-sub">Enter your AWB tracking number from the shipping confirmation SMS or email.</p>
+  <div class="track-bar">
+    <input id="awbInput" placeholder="AWB number or Order ID">
+    <button onclick="trackOrder()">Track</button>
   </div>
-  <div id="result"></div>
+  <div id="trackResult"></div>
 </div>
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script>
-const pre=new URLSearchParams(location.search).get('order_id');
-if(pre){document.getElementById('awbInput').value=pre;setTimeout(track,300);}
-async function track(){
+const p=new URLSearchParams(location.search);
+const pre=p.get('order_id')||p.get('awb');
+if(pre){document.getElementById('awbInput').value=pre;setTimeout(trackOrder,400);}
+async function trackOrder(){
   const awb=document.getElementById('awbInput').value.trim();
   if(!awb)return;
-  const r=document.getElementById('result');
-  r.innerHTML='<div class="tr-empty">Fetching tracking info…</div>';
+  const el=document.getElementById('trackResult');
+  el.innerHTML='<div class="track-result"><div class="tr-empty">Fetching tracking info…</div></div>';
   try{
-    const res=await fetch(`${API_BASE}/api/shipping/track/${awb}`);
-    if(!res.ok)throw new Error();
-    const d=await res.json();
-    r.innerHTML=`<div class="track-result">
+    const r=await fetch(`${API_BASE}/api/shipping/track/${awb}`);
+    if(!r.ok)throw new Error('not found');
+    const d=await r.json();
+    el.innerHTML=`<div class="track-result">
       <div class="tr-status">${d.status||'In transit'}</div>
-      <div class="tr-courier">Courier: ${d.courier||'—'} · AWB: ${d.awb||awb}</div>
-      ${d.estimated_delivery?`<div class="tr-eta">📦 Expected: ${d.estimated_delivery}</div>`:''}
+      <div class="tr-courier">Courier: ${d.courier||'—'} · AWB: ${d.awb||awb}${d.estimated_delivery?` · Estimated: ${d.estimated_delivery}`:''}</div>
       <div class="tr-events">
-        ${(d.events||[]).map(ev=>`<div class="tr-ev"><div class="tr-dot"></div><div><div class="tr-ev-msg">${ev.activity||ev.status||''}</div><div class="tr-ev-time">${ev.date||ev.timestamp||''} ${ev.location?'· '+ev.location:''}</div></div></div>`).join('')||'<div class="tr-empty">No events yet. Check back once dispatched.</div>'}
+        ${(d.events||[]).map(ev=>`<div class="tr-event"><div class="tr-dot"></div><div><div class="tr-msg">${ev.activity||ev.status||''}</div><div class="tr-time">${ev.date||ev.timestamp||''} ${ev.location?'· '+ev.location:''}</div></div></div>`).join('')||'<div class="tr-empty">No tracking events yet. Check back once your order has been dispatched.</div>'}
       </div>
     </div>`;
-  }catch{r.innerHTML='<div class="track-result"><div class="tr-empty">No tracking info found. If your order was placed recently, it may not be dispatched yet. You\'ll receive an SMS with your AWB once shipped.</div></div>';}
+  }catch{el.innerHTML='<div class="track-result"><div class="tr-empty">No tracking information found. Your order may not have shipped yet — you\'ll receive an SMS with your AWB number once it does.</div></div>';}
 }
 </script>
 </body>
