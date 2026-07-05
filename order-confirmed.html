@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Confirmed — Lumère</title>
-<link rel="stylesheet" href="styles/global.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-.confirmed-wrap{max-width:600px;margin:0 auto;padding:80px 24px;text-align:center;}
-.check-circle{width:80px;height:80px;border-radius:50%;background:var(--sage-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:36px;}
-.confirmed-wrap h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,40px);margin-bottom:14px;}
-.confirmed-wrap h1 em{font-style:italic;color:var(--sage);}
-.confirmed-wrap p{font-size:16px;color:var(--ink-soft);margin-bottom:28px;}
-.order-id{font-family:'IBM Plex Mono',monospace;font-size:14px;background:var(--pearl);padding:12px 20px;border-radius:8px;border:1px solid var(--hair);margin-bottom:28px;display:inline-block;}
-.confirmed-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ink:#0F0F0F;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--ash:#888;--hair:#E5E2DC;}
+body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
+nav{height:60px;background:rgba(250,248,244,.96);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
+.nav-logo span{font-style:italic;color:var(--sage);}
+.wrap{max-width:580px;margin:0 auto;padding:80px 32px;text-align:center;flex:1;}
+.check{width:72px;height:72px;background:rgba(92,140,122,.12);border:2px solid var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 32px;font-size:28px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,40px);font-weight:700;margin-bottom:14px;}
+h1 em{font-style:italic;color:var(--sage);}
+.sub{font-size:16px;color:var(--ash);line-height:1.7;max-width:440px;margin:0 auto 28px;}
+.order-id-box{font-family:'IBM Plex Mono',monospace;font-size:13.5px;background:var(--white);border:1.5px solid var(--hair);padding:14px 24px;display:inline-block;margin-bottom:32px;}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--sage);color:#fff;padding:13px 28px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+.btn-primary:hover{background:#4a7565;}
+.btn-outline{background:none;color:var(--ink);padding:13px 28px;font-size:14px;font-weight:500;border:1.5px solid var(--hair);cursor:pointer;transition:border-color .2s;}
+.btn-outline:hover{border-color:var(--ink);}
+.note{margin-top:40px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
 </style>
 </head>
 <body>
-<nav>
-  <div class="wrap">
-    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
-    <ul class="nav-links"><li><a href="shop.html">Shop</a></li></ul>
-    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'">🛒</div></div>
+<nav><div class="nav-inner"><div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div></div></nav>
+<div class="wrap">
+  <div class="check">✓</div>
+  <h1>Order <em>confirmed.</em></h1>
+  <p class="sub">Your Lumère formulas are being packed and will be dispatched from our Delhi warehouse within 1–2 business days. You'll receive a tracking link by SMS.</p>
+  <div class="order-id-box" id="oid">Loading…</div>
+  <div class="actions">
+    <button class="btn-primary" id="trackBtn">Track my order</button>
+    <button class="btn-outline" onclick="location.href='shop.html'">Continue shopping</button>
   </div>
-</nav>
-
-<div class="confirmed-wrap">
-  <div class="check-circle">✓</div>
-  <h1 class="serif">Order <em>confirmed.</em></h1>
-  <p>Your Lumère formulas are being packed. You'll receive a shipping confirmation with a tracking link as soon as your order is dispatched from our Delhi warehouse.</p>
-  <div class="order-id" id="orderIdBox">Loading…</div>
-  <p style="font-size:14px;color:var(--ash);">A GST invoice has been sent to your email address.</p>
-  <div class="confirmed-actions">
-    <button class="btn btn-primary" id="trackBtn">Track my order</button>
-    <button class="btn btn-ghost" onclick="location.href='shop.html'">Continue shopping</button>
-  </div>
+  <p class="note">A GST invoice has been sent to your email · Powered by Lumère</p>
 </div>
-
-<script src="js/config.js"></script>
-<script src="js/products.js"></script>
 <script>
-const params = new URLSearchParams(location.search);
-const orderId = params.get('order_id') || 'LUM-2026-XXXXXX';
-const method = params.get('method');
-document.getElementById('orderIdBox').textContent = 'Order ID: ' + orderId;
-document.getElementById('trackBtn').onclick = () => location.href = `track.html?order_id=${orderId}`;
+const p=new URLSearchParams(location.search);
+const oid=p.get('order_id')||'LUM-2026-XXXXX';
+document.getElementById('oid').textContent='Order ID: '+oid;
+document.getElementById('trackBtn').onclick=()=>location.href='track.html?order_id='+oid;
 </script>
 </body>
 </html>

@@ -1,211 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout — Lumère</title>
-<link rel="stylesheet" href="styles/global.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
-.checkout-layout{display:grid;grid-template-columns:1fr 360px;gap:40px;padding:60px 0 80px;align-items:start;}
-.co-form h2{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:24px;}
-.form-group{margin-bottom:18px;}
-.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink-soft);}
-.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--hair);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s ease;background:var(--white);}
-.form-group input:focus,.form-group select:focus{border-color:var(--sage);}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
+.nav-logo span{font-style:italic;color:var(--sage);}
+.cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
+.container{max-width:1200px;margin:0 auto;padding:0 32px;}
+.co-wrap{display:grid;grid-template-columns:1fr 380px;gap:48px;padding:48px 0 80px;align-items:start;}
+.co-form h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:24px;color:var(--ink);}
+.co-form h2+h2{margin-top:32px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.payment-options{display:flex;flex-direction:column;gap:12px;margin:20px 0;}
-.payment-opt{display:flex;align-items:center;gap:12px;padding:16px 18px;border:2px solid var(--hair);border-radius:10px;cursor:pointer;transition:border-color .2s;}
-.payment-opt.selected,.payment-opt:hover{border-color:var(--sage);}
-.payment-opt input{accent-color:var(--sage);}
-.payment-opt label{cursor:pointer;font-size:14.5px;font-weight:500;}
-.order-sidebar{background:var(--white);border-radius:16px;border:1px solid var(--hair);padding:26px;position:sticky;top:88px;}
-.os-title{font-family:'DM Serif Display',serif;font-size:19px;margin-bottom:18px;}
-.os-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14px;color:var(--ink-soft);}
-.os-item:last-of-type{border-bottom:none;}
-.os-total{display:flex;justify-content:space-between;font-weight:600;font-size:16px;padding-top:16px;border-top:2px solid var(--ink);}
-.btn-pay{width:100%;margin-top:22px;padding:16px;border-radius:100px;background:var(--sage);color:#fff;font-size:16px;font-weight:600;border:none;cursor:pointer;}
-.btn-pay:hover{background:#5e8078;}
-.secure-badge{display:flex;align-items:center;gap:6px;justify-content:center;font-size:12px;color:var(--ash);margin-top:12px;}
-@media(max-width:768px){.checkout-layout{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1.5px solid var(--hair);font-size:15px;font-family:'Inter',sans-serif;background:var(--white);outline:none;transition:border-color .2s;-webkit-appearance:none;}
+.form-group input:focus,.form-group select:focus{border-color:var(--sage);}
+.pay-options{display:flex;flex-direction:column;gap:10px;margin:8px 0 24px;}
+.pay-opt{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1.5px solid var(--hair);cursor:pointer;transition:border-color .2s;}
+.pay-opt.active,.pay-opt:hover{border-color:var(--sage);}
+.pay-opt input{accent-color:var(--sage);width:16px;height:16px;}
+.pay-opt label{font-size:14.5px;font-weight:500;cursor:pointer;}
+/* Summary */
+.co-summary{background:var(--white);border:1.5px solid var(--hair);padding:28px;position:sticky;top:80px;}
+.cs-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:20px;}
+.cs-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14px;color:var(--ash);}
+.cs-row{display:flex;justify-content:space-between;font-size:14.5px;color:var(--ash);margin-bottom:10px;}
+.cs-total{display:flex;justify-content:space-between;font-weight:700;font-size:17px;color:var(--ink);border-top:1.5px solid var(--ink);padding-top:16px;margin-top:8px;}
+.btn-pay{width:100%;margin-top:20px;background:var(--sage);color:#fff;padding:16px;font-size:15px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.btn-pay:hover{background:#4a7565;}
+.btn-pay:disabled{opacity:.6;cursor:not-allowed;}
+.secure-note{display:flex;justify-content:center;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);margin-top:12px;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:768px){.co-wrap{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+@media(max-width:600px){.container{padding:0 20px;}}
 </style>
 </head>
 <body>
 <nav>
-  <div class="wrap">
+  <div class="nav-inner">
     <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
-    <ul class="nav-links"><li><a href="shop.html">Shop</a></li></ul>
-    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+    <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
   </div>
 </nav>
-
-<div class="wrap">
-  <div class="checkout-layout">
-    <div class="co-form">
-      <h2 class="serif">Delivery details</h2>
-      <div class="form-row">
-        <div class="form-group"><label>First name</label><input type="text" id="firstName" placeholder="Shubham" required></div>
-        <div class="form-group"><label>Last name</label><input type="text" id="lastName" placeholder="Pandey" required></div>
-      </div>
-      <div class="form-group"><label>Email address</label><input type="email" id="email" placeholder="you@email.com" required></div>
-      <div class="form-group"><label>Phone number</label><input type="tel" id="phone" placeholder="9XXXXXXXXX" required maxlength="10"></div>
-      <div class="form-group"><label>Address line 1</label><input type="text" id="addr1" placeholder="House/flat number, street" required></div>
-      <div class="form-group"><label>Address line 2 (optional)</label><input type="text" id="addr2" placeholder="Colony, landmark"></div>
-      <div class="form-row">
-        <div class="form-group"><label>City</label><input type="text" id="city" placeholder="New Delhi" required></div>
-        <div class="form-group"><label>Pincode</label><input type="text" id="pincode" placeholder="110001" maxlength="6" required oninput="fetchETA()"></div>
-      </div>
-      <div class="form-group"><label>State</label>
-        <select id="state">
-          <option value="">Select state</option>
-          <option>Delhi</option><option>Maharashtra</option><option>Karnataka</option><option>Tamil Nadu</option>
-          <option>Uttar Pradesh</option><option>Rajasthan</option><option>Haryana</option><option>Punjab</option>
-          <option>Gujarat</option><option>West Bengal</option><option>Telangana</option><option>Kerala</option>
-        </select>
-      </div>
-      <h2 class="serif" style="margin-top:32px;">Payment method</h2>
-      <div class="payment-options">
-        <div class="payment-opt selected" id="opt-prepaid" onclick="selectPayment('prepaid')">
-          <input type="radio" name="payment" value="prepaid" checked>
-          <label>💳 Prepaid (UPI / Card / Net Banking)</label>
-        </div>
-        <div class="payment-opt" id="opt-cod" onclick="selectPayment('cod')">
-          <input type="radio" name="payment" value="cod">
-          <label>💵 Cash on Delivery</label>
-        </div>
-      </div>
-      <div id="etaBox" style="font-size:13.5px;color:var(--sage);margin-bottom:16px;font-weight:500;"></div>
+<div class="container">
+<div class="co-wrap">
+  <div class="co-form">
+    <h2>Delivery details</h2>
+    <div class="form-row">
+      <div class="form-group"><label>First name</label><input id="fn" placeholder="Shubham" required></div>
+      <div class="form-group"><label>Last name</label><input id="ln" placeholder="Pandey" required></div>
     </div>
-
-    <div class="order-sidebar">
-      <div class="os-title serif">Order</div>
-      <div id="orderItems"></div>
-      <div id="orderTotals"></div>
-      <button class="btn-pay" id="payBtn" onclick="placeOrder()">Place Order →</button>
-      <div class="secure-badge">🔒 Secure checkout · Razorpay</div>
+    <div class="form-group"><label>Email</label><input type="email" id="em" placeholder="you@email.com" required></div>
+    <div class="form-group"><label>Phone</label><input type="tel" id="ph" placeholder="9XXXXXXXXX" maxlength="10" required></div>
+    <div class="form-group"><label>Address</label><input id="a1" placeholder="House / flat / street" required></div>
+    <div class="form-group"><label>Landmark (optional)</label><input id="a2" placeholder="Nearby landmark"></div>
+    <div class="form-row">
+      <div class="form-group"><label>City</label><input id="city" placeholder="New Delhi" required></div>
+      <div class="form-group"><label>Pincode</label><input id="pin" placeholder="110001" maxlength="6" required oninput="fetchETA()"></div>
+    </div>
+    <div class="form-group">
+      <label>State</label>
+      <select id="state">
+        <option value="">Select state</option>
+        <option>Delhi</option><option>Maharashtra</option><option>Karnataka</option>
+        <option>Tamil Nadu</option><option>Uttar Pradesh</option><option>Rajasthan</option>
+        <option>Haryana</option><option>Punjab</option><option>Gujarat</option>
+        <option>West Bengal</option><option>Telangana</option><option>Kerala</option>
+        <option>Madhya Pradesh</option><option>Bihar</option><option>Odisha</option>
+      </select>
+    </div>
+    <div id="etaBox" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--sage);margin-bottom:20px;min-height:18px;"></div>
+    <h2>Payment</h2>
+    <div class="pay-options">
+      <div class="pay-opt active" id="opt-prepaid" onclick="selPay('prepaid')">
+        <input type="radio" name="pay" value="prepaid" checked><label>💳 UPI / Card / Net Banking</label>
+      </div>
+      <div class="pay-opt" id="opt-cod" onclick="selPay('cod')">
+        <input type="radio" name="pay" value="cod"><label>💵 Cash on Delivery</label>
+      </div>
     </div>
   </div>
+  <div class="co-summary">
+    <div class="cs-title">Your order</div>
+    <div id="cs-items"></div>
+    <div id="cs-totals"></div>
+    <button class="btn-pay" id="payBtn" onclick="placeOrder()">Place Order →</button>
+    <div class="secure-note">🔒 Secured by Razorpay</div>
+  </div>
 </div>
-
+</div>
 <div class="toast" id="toast"></div>
-
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script>
-let selectedPayment = 'prepaid';
-
-function selectPayment(method) {
-  selectedPayment = method;
-  document.querySelectorAll('.payment-opt').forEach(el => el.classList.remove('selected'));
-  document.getElementById('opt-' + method).classList.add('selected');
-  document.querySelector(`input[value="${method}"]`).checked = true;
+let pm='prepaid';
+function selPay(m){pm=m;document.querySelectorAll('.pay-opt').forEach(el=>el.classList.remove('active'));document.getElementById('opt-'+m).classList.add('active');document.querySelector(`input[value="${m}"]`).checked=true;}
+function g(id){return document.getElementById(id)?.value?.trim()||'';}
+function renderSummary(){
+  const cart=getCart();updateCartCount();
+  const sub=getCartTotal(),gst=Math.round(sub*.18),total=sub+gst;
+  g('cs-items'); // reference
+  document.getElementById('cs-items').innerHTML=cart.map(i=>`<div class="cs-item"><span>${i.name.split('+')[0].trim()} ×${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('');
+  document.getElementById('cs-totals').innerHTML=`
+    <div class="cs-row" style="margin-top:14px"><span>Subtotal</span><span>₹${sub}</span></div>
+    <div class="cs-row"><span>GST (18%)</span><span>₹${gst}</span></div>
+    <div class="cs-row"><span>Shipping</span><span style="color:var(--sage)">Free</span></div>
+    <div class="cs-total"><span>Total</span><span>₹${total}</span></div>`;
 }
-
-function renderSidebar() {
-  const cart = getCart();
-  updateCartCount();
-  const subtotal = getCartTotal();
-  const gst = Math.round(subtotal * 0.18);
-  document.getElementById('orderItems').innerHTML = cart.map(item =>
-    `<div class="os-item"><span>${item.name.split('+')[0].trim()} ×${item.qty}</span><span>₹${item.price * item.qty}</span></div>`
-  ).join('');
-  document.getElementById('orderTotals').innerHTML = `
-    <div class="os-item"><span>Subtotal</span><span>₹${subtotal}</span></div>
-    <div class="os-item"><span>GST (18%)</span><span>₹${gst}</span></div>
-    <div class="os-item"><span>Shipping</span><span style="color:var(--green)">Free</span></div>
-    <div class="os-total"><span>Total</span><span>₹${subtotal + gst}</span></div>`;
+async function fetchETA(){
+  const pin=g('pin');if(pin.length!==6)return;
+  try{const r=await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);const d=await r.json();document.getElementById('etaBox').textContent='🚚 '+(d.message||`Delivered in ${d.air_days} business days`);}catch{document.getElementById('etaBox').textContent='🚚 Delivered in 3–5 business days pan-India';}
 }
-
-async function fetchETA() {
-  const pin = document.getElementById('pincode').value.trim();
-  if (pin.length !== 6) return;
-  try {
-    const res = await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
-    const data = await res.json();
-    document.getElementById('etaBox').textContent = '🚚 ' + (data.message || 'Delivered in ' + data.air_days + ' business days');
-  } catch { document.getElementById('etaBox').textContent = '🚚 Delivered in 3–5 business days pan-India'; }
-}
-
-function getField(id) { return document.getElementById(id)?.value?.trim() || ''; }
-
-function validate() {
-  const required = ['firstName','email','phone','addr1','city','pincode','state'];
-  for (const f of required) { if (!getField(f)) { showToast('Please fill all required fields'); return false; } }
-  if (getField('phone').length !== 10) { showToast('Enter a valid 10-digit phone number'); return false; }
-  if (getCart().length === 0) { showToast('Your cart is empty'); return false; }
-  return true;
-}
-
-async function placeOrder() {
-  if (!validate()) return;
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true; btn.textContent = 'Processing…';
-  const cart = getCart();
-  const subtotal = getCartTotal();
-  const gst = Math.round(subtotal * 0.18);
-  const total = subtotal + gst;
-
-  const orderPayload = {
-    customer_name: `${getField('firstName')} ${getField('lastName')}`,
-    customer_email: getField('email'),
-    customer_phone: getField('phone'),
-    address_line1: getField('addr1'),
-    address_line2: getField('addr2') || null,
-    city: getField('city'),
-    state: getField('state'),
-    pincode: getField('pincode'),
-    items: cart.map(i => ({ product_id: i.id, name: i.name, qty: i.qty, price: i.price })),
-    payment_method: selectedPayment
-  };
-
-  try {
-    const res = await fetch(`${API_BASE}/api/orders/`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(orderPayload) });
-    const order = await res.json();
-
-    if (selectedPayment === 'cod') {
-      saveCart([]);
-      location.href = `order-confirmed.html?order_id=${order.order_id}&method=cod`;
-      return;
-    }
-
-    // Razorpay prepaid
-    const options = {
-      key: window.__RAZORPAY_KEY__ || 'rzp_test_placeholder',
-      amount: total * 100,
-      currency: 'INR',
-      name: 'Lumère',
-      description: 'Skincare named after what\'s in it',
-      order_id: order.razorpay_order_id,
-      handler: async (response) => {
-        const verifyRes = await fetch(`${API_BASE}/api/payments/verify`, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            order_id: order.order_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature
-          })
-        });
-        if (verifyRes.ok) {
-          saveCart([]);
-          location.href = `order-confirmed.html?order_id=${order.order_id}&method=prepaid`;
-        }
-      },
-      prefill: { name: orderPayload.customer_name, email: orderPayload.customer_email, contact: orderPayload.customer_phone },
-      theme: { color: '#7A9E94' }
-    };
-    const rzp = new Razorpay(options);
+async function placeOrder(){
+  const required=['fn','em','ph','a1','city','pin','state'];
+  for(const f of required){if(!g(f)){showToast('Please fill all required fields');return;}}
+  if(g('ph').length!==10){showToast('Enter a valid 10-digit phone number');return;}
+  if(!getCart().length){showToast('Your cart is empty');return;}
+  const btn=document.getElementById('payBtn');
+  btn.disabled=true;btn.textContent='Processing…';
+  const cart=getCart(),sub=getCartTotal(),gst=Math.round(sub*.18),total=sub+gst;
+  const payload={customer_name:`${g('fn')} ${g('ln')}`,customer_email:g('em'),customer_phone:g('ph'),address_line1:g('a1'),address_line2:g('a2')||null,city:g('city'),state:g('state'),pincode:g('pin'),items:cart.map(i=>({product_id:i.id,name:i.name,qty:i.qty,price:i.price})),payment_method:pm};
+  try{
+    const res=await fetch(`${API_BASE}/api/orders/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const order=await res.json();
+    if(pm==='cod'){saveCart([]);location.href=`order-confirmed.html?order_id=${order.order_id}&method=cod`;return;}
+    const rzp=new Razorpay({key:window.__RAZORPAY_KEY__||'rzp_test_T9QhGXTbjhJxV1',amount:total*100,currency:'INR',name:'Lumère',description:'Skincare named after what\'s in it',order_id:order.razorpay_order_id,handler:async(rz)=>{
+      const vr=await fetch(`${API_BASE}/api/payments/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:order.order_id,razorpay_order_id:rz.razorpay_order_id,razorpay_payment_id:rz.razorpay_payment_id,razorpay_signature:rz.razorpay_signature})});
+      if(vr.ok){saveCart([]);location.href=`order-confirmed.html?order_id=${order.order_id}&method=prepaid`;}
+    },prefill:{name:payload.customer_name,email:payload.customer_email,contact:payload.customer_phone},theme:{color:'#5C8C7A'}});
     rzp.open();
-  } catch (err) {
-    showToast('Something went wrong. Please try again.');
-    console.error(err);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Place Order →';
-  }
+  }catch(e){showToast('Something went wrong. Please try again.');console.error(e);}
+  finally{btn.disabled=false;btn.textContent='Place Order →';}
 }
-
-renderSidebar();
+renderSummary();
 </script>
 </body>
 </html>

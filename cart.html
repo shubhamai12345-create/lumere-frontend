@@ -1,139 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Cart — Lumère</title>
-<link rel="stylesheet" href="styles/global.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — Lumère</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-.page-head{padding:80px 0 40px;border-bottom:1px solid var(--hair);}
-.page-head h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
+.nav-logo span{font-style:italic;color:var(--sage);}
+.cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
+.container{max-width:1200px;margin:0 auto;padding:0 32px;}
+.page-head{padding:48px 0 32px;border-bottom:1px solid var(--hair);}
+.page-head h1{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px);font-weight:700;}
 .page-head h1 em{font-style:italic;color:var(--sage);}
-.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:48px 0 80px;align-items:start;}
-.cart-items{display:flex;flex-direction:column;gap:16px;}
-.cart-item{display:flex;gap:20px;padding:22px;background:var(--white);border-radius:12px;border:1px solid var(--hair);}
-.ci-img{width:70px;height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;color:var(--sage);text-align:center;line-height:1.3;padding:6px;border:1px solid var(--hair);}
+.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:40px 0 80px;align-items:start;}
+.cart-items{display:flex;flex-direction:column;gap:0;}
+.cart-item{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--hair);align-items:flex-start;}
+.ci-swatch{width:64px;height:64px;background:var(--ink2);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;color:rgba(255,255,255,.5);text-align:center;padding:6px;flex:none;}
 .ci-body{flex:1;}
-.ci-name{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14.5px;margin-bottom:4px;}
-.ci-price{color:var(--ink-soft);font-size:14px;margin-bottom:12px;}
-.ci-qty{display:flex;align-items:center;gap:12px;}
-.qty-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
-.qty-btn:hover{background:var(--pearl);}
-.qty-num{font-weight:600;font-size:15px;min-width:20px;text-align:center;}
-.ci-remove{background:none;border:none;color:var(--ash);font-size:12px;cursor:pointer;margin-left:auto;align-self:flex-start;}
-.ci-remove:hover{color:var(--oxide);}
-.cart-summary{background:var(--white);border-radius:16px;border:1px solid var(--hair);padding:28px;position:sticky;top:88px;}
-.cs-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:24px;}
-.cs-row{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:12px;color:var(--ink-soft);}
-.cs-row.total{font-weight:600;font-size:16px;color:var(--ink);border-top:1px solid var(--hair);padding-top:14px;margin-top:6px;}
-.cs-delivery{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sage);margin:12px 0 18px;display:block;}
-.btn-checkout{width:100%;padding:15px;border-radius:100px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;}
-.btn-checkout:hover{background:var(--sage);}
-.pincode-row{display:flex;gap:10px;margin-bottom:16px;}
-.pincode-row input{flex:1;padding:10px 14px;border:1px solid var(--hair);border-radius:8px;font-size:14px;outline:none;}
+.ci-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.ci-price{font-size:13.5px;color:var(--ash);margin-bottom:14px;}
+.ci-qty{display:flex;align-items:center;gap:0;border:1.5px solid var(--hair);width:fit-content;}
+.ci-qbtn{width:34px;height:34px;background:none;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.ci-qbtn:hover{background:var(--pearl);}
+.ci-qnum{width:38px;text-align:center;font-weight:600;font-size:14px;}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+.ci-total{font-size:17px;font-weight:700;}
+.ci-remove{background:none;border:none;font-size:12px;color:var(--ash);cursor:pointer;text-decoration:underline;}
+.ci-remove:hover{color:var(--ink);}
+/* Summary */
+.order-summary{background:var(--white);border:1.5px solid var(--hair);padding:28px;position:sticky;top:80px;}
+.os-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:22px;}
+.os-row{display:flex;justify-content:space-between;font-size:14.5px;color:var(--ash);margin-bottom:12px;}
+.os-row.total{font-weight:700;font-size:17px;color:var(--ink);border-top:1.5px solid var(--ink);padding-top:16px;margin-top:8px;}
+.pincode-row{display:flex;gap:8px;margin:16px 0;}
+.pincode-row input{flex:1;padding:10px 14px;border:1.5px solid var(--hair);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
 .pincode-row input:focus{border-color:var(--sage);}
-.pincode-row button{padding:10px 16px;border-radius:8px;background:var(--pearl);border:1px solid var(--hair);cursor:pointer;font-size:13px;}
-.delivery-eta{font-size:13px;color:var(--green);font-weight:500;margin-bottom:14px;}
-.empty-cart{text-align:center;padding:80px 40px;}
-.empty-cart h2{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:14px;}
-.empty-cart p{color:var(--ink-soft);margin-bottom:28px;}
+.pincode-row button{padding:10px 16px;background:var(--ink);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;}
+.eta-msg{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sage);margin-bottom:14px;min-height:18px;}
+.free-ship{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);margin-bottom:18px;}
+.btn-checkout{width:100%;background:var(--sage);color:#fff;padding:15px;font-size:15px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.btn-checkout:hover{background:#4a7565;}
+.empty-state{text-align:center;padding:100px 0;}
+.empty-state h2{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:14px;}
+.empty-state p{color:var(--ash);margin-bottom:28px;}
+.btn-shop{background:var(--ink);color:#fff;padding:14px 32px;font-size:14px;font-weight:600;border:none;cursor:pointer;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
 @media(max-width:768px){.cart-layout{grid-template-columns:1fr;}}
+@media(max-width:600px){.container{padding:0 20px;}}
 </style>
 </head>
 <body>
 <nav>
-  <div class="wrap">
+  <div class="nav-inner">
     <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
-    <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
-    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+    <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
   </div>
 </nav>
-
-<div class="page-head"><div class="wrap"><h1 class="serif">Your <em>Cart</em></h1></div></div>
-
-<div class="wrap" id="cartContainer"></div>
+<div class="page-head"><div class="container"><h1>Your <em>Cart</em></h1></div></div>
+<div class="container" id="cartWrap"></div>
 <div class="toast" id="toast"></div>
-
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script>
-function render() {
-  const cart = getCart();
-  const container = document.getElementById('cartContainer');
+function render(){
+  const cart=getCart(), wrap=document.getElementById('cartWrap');
   updateCartCount();
-  if (!cart.length) {
-    container.innerHTML = `<div class="empty-cart"><h2 class="serif">Your cart is empty</h2><p>Discover the range and add a formula that's right for your skin.</p><button class="btn btn-primary" onclick="location.href='shop.html'">Shop now</button></div>`;
+  if(!cart.length){
+    wrap.innerHTML='<div class="empty-state"><h2>Your cart is empty</h2><p>Find a formula that works for your skin.</p><button class="btn-shop" onclick="location.href=\'shop.html\'">Shop now</button></div>';
     return;
   }
-  const subtotal = getCartTotal();
-  const gst = Math.round(subtotal * 0.18);
-  const total = subtotal + gst;
-  container.innerHTML = `
-    <div class="cart-layout">
-      <div class="cart-items">
-        ${cart.map(item => {
-          const p = PRODUCTS.find(p => p.id === item.id);
-          return `<div class="cart-item">
-            <div class="ci-img" style="background:${p?.cardBg||'var(--pearl)'}">${item.name.split('+')[0].trim()}</div>
-            <div class="ci-body">
-              <div class="ci-name">${item.name}</div>
-              <div class="ci-price">₹${item.price} · 30ml</div>
-              <div class="ci-qty">
-                <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
-                <span class="qty-num">${item.qty}</span>
-                <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
-              </div>
-            </div>
-            <button class="ci-remove" onclick="removeItem('${item.id}')">Remove ×</button>
-          </div>`;
-        }).join('')}
-      </div>
-      <div class="cart-summary">
-        <div class="cs-title serif">Order Summary</div>
-        <div class="cs-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
-        <div class="cs-row"><span>GST (18%)</span><span>₹${gst}</span></div>
-        <div class="cs-row"><span>Shipping</span><span style="color:var(--green)">Free</span></div>
-        <div class="cs-row total"><span>Total</span><span>₹${total}</span></div>
-        <div class="pincode-row">
-          <input type="text" id="pincodeInput" placeholder="Enter pincode" maxlength="6">
-          <button onclick="checkETA()">Check</button>
+  const sub=getCartTotal(),gst=Math.round(sub*.18),total=sub+gst;
+  wrap.innerHTML=`
+  <div class="cart-layout">
+    <div class="cart-items">
+      ${cart.map(item=>{const p=PRODUCTS.find(x=>x.id===item.id)||{};return`
+      <div class="cart-item">
+        <div class="ci-swatch">${item.name.split('+')[0].trim().substring(0,12)}</div>
+        <div class="ci-body">
+          <div class="ci-name">${item.name}</div>
+          <div class="ci-price">₹${item.price} · 30ml</div>
+          <div class="ci-qty">
+            <button class="ci-qbtn" onclick="chQty('${item.id}',-1)">−</button>
+            <span class="ci-qnum">${item.qty}</span>
+            <button class="ci-qbtn" onclick="chQty('${item.id}',1)">+</button>
+          </div>
         </div>
-        <div id="deliveryETA"></div>
-        <span class="cs-delivery">📦 Free delivery on all orders · COD available</span>
-        <button class="btn-checkout" onclick="location.href='checkout.html'">Proceed to Checkout →</button>
+        <div class="ci-right">
+          <span class="ci-total">₹${item.price*item.qty}</span>
+          <button class="ci-remove" onclick="rmItem('${item.id}')">Remove</button>
+        </div>
+      </div>`}).join('')}
+    </div>
+    <div class="order-summary">
+      <div class="os-title">Order Summary</div>
+      <div class="os-row"><span>Subtotal</span><span>₹${sub}</span></div>
+      <div class="os-row"><span>GST (18%)</span><span>₹${gst}</span></div>
+      <div class="os-row"><span>Shipping</span><span style="color:var(--sage)">Free</span></div>
+      <div class="os-row total"><span>Total</span><span>₹${total}</span></div>
+      <div class="pincode-row">
+        <input type="text" id="pin" placeholder="Check delivery pincode" maxlength="6">
+        <button onclick="chkETA()">Check</button>
       </div>
-    </div>`;
+      <div class="eta-msg" id="eta"></div>
+      <div class="free-ship">📦 Free delivery on all orders · COD available</div>
+      <button class="btn-checkout" onclick="location.href='checkout.html'">Proceed to checkout →</button>
+    </div>
+  </div>`;
 }
-
-function changeQty(id, delta) {
-  const cart = getCart();
-  const item = cart.find(i => i.id === id);
-  if (!item) return;
-  item.qty = Math.max(0, item.qty + delta);
-  saveCart(cart.filter(i => i.qty > 0));
-  render();
+function chQty(id,d){const c=getCart(),i=c.find(x=>x.id===id);if(!i)return;i.qty=Math.max(0,i.qty+d);saveCart(c.filter(x=>x.qty>0));render();}
+function rmItem(id){saveCart(getCart().filter(x=>x.id!==id));render();}
+async function chkETA(){
+  const pin=document.getElementById('pin').value.trim();
+  if(pin.length!==6)return;
+  document.getElementById('eta').textContent='Checking…';
+  try{
+    const r=await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
+    const d=await r.json();
+    document.getElementById('eta').textContent='🚚 '+(d.message||`Delivered in ${d.air_days} business days`);
+  }catch{document.getElementById('eta').textContent='🚚 Delivered in 3–5 business days pan-India';}
 }
-
-function removeItem(id) {
-  const cart = getCart().filter(i => i.id !== id);
-  saveCart(cart);
-  render();
-}
-
-async function checkETA() {
-  const pin = document.getElementById('pincodeInput').value.trim();
-  if (pin.length !== 6) { showToast('Enter a valid 6-digit pincode'); return; }
-  const eta = document.getElementById('deliveryETA');
-  eta.innerHTML = '<span style="font-size:13px;color:var(--ash)">Checking…</span>';
-  try {
-    const res = await fetch(`${API_BASE}/api/shipping/estimate/${pin}`);
-    const data = await res.json();
-    eta.innerHTML = `<div class="delivery-eta">🚚 ${data.message || 'Delivered in ' + data.air_days + ' business days'}</div>`;
-  } catch {
-    eta.innerHTML = `<div class="delivery-eta">🚚 Delivered in 3–5 business days pan-India</div>`;
-  }
-}
-
 render();
 </script>
 </body>

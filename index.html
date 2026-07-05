@@ -4,232 +4,373 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lumère — Skincare named after what's in it</title>
-<link rel="stylesheet" href="styles/global.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-.hero{min-height:100vh;padding-top:64px;display:grid;grid-template-columns:1fr 1fr;align-items:center;}
-.hero-left{padding:80px 60px 80px 80px;display:flex;flex-direction:column;gap:26px;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);}
-.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--sage);}
-.hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(40px,4.4vw,64px);line-height:1.08;letter-spacing:-.01em;}
-.hero-headline em{font-style:italic;color:var(--sage);}
-.hero-sub{font-size:17px;color:var(--ink-soft);max-width:420px;}
-.hero-sub b{color:var(--ink);}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0F0F0F;--ink2:#1E1E1E;--white:#FFFFFF;--pearl:#FAF8F4;
+  --sage:#5C8C7A;--sage-lt:#EAF1EE;--gold:#B8864E;--gold-lt:#F7EFE4;
+  --ash:#888;--hair:#E5E2DC;--r:0px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:.02em;color:var(--ink);}
+.nav-logo span{font-style:italic;color:var(--sage);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--ash);letter-spacing:.02em;transition:color .2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;letter-spacing:.03em;border:none;cursor:pointer;transition:background .2s;}
+.btn-nav:hover{background:var(--sage);}
+.cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
+
+/* HERO */
+.hero{min-height:100vh;padding-top:60px;background:var(--ink2);display:grid;grid-template-columns:1fr 1fr;}
+.hero-left{padding:80px 60px 80px 80px;display:flex;flex-direction:column;justify-content:center;gap:28px;}
+.hero-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,5vw,72px);font-weight:900;line-height:1.06;color:#fff;}
+.hero-h1 em{font-style:italic;color:var(--sage);}
+.hero-sub{font-size:16px;line-height:1.7;color:rgba(255,255,255,.55);max-width:440px;}
+.hero-sub strong{color:rgba(255,255,255,.9);}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
-.hero-trust{display:flex;gap:22px;flex-wrap:wrap;}
-.trust-item{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ash);display:flex;align-items:center;gap:6px;}
-.trust-item::before{content:'✓';color:var(--sage);}
-.hero-right{height:100vh;background:var(--blush);display:flex;align-items:center;justify-content:center;padding:60px;}
-.product-stack{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;}
-.pcard-hero{background:var(--white);border-radius:16px;padding:26px;box-shadow:0 4px 40px rgba(26,24,20,.08);cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;border-left:3px solid var(--sage);}
-.pcard-hero:hover{transform:translateY(-4px);box-shadow:0 12px 50px rgba(26,24,20,.12);}
-.pcard-formula{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;}
-.pcard-name{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:8px;}
-.pcard-desc{font-size:13.5px;color:var(--ash);line-height:1.5;margin-bottom:16px;}
-.pcard-footer{display:flex;justify-content:space-between;align-items:center;}
-.pcard-price{font-weight:600;font-size:17px;}
-.marquee-section{background:var(--ink);padding:14px 0;overflow:hidden;}
-.marquee-track{display:flex;gap:40px;animation:marquee 28s linear infinite;width:max-content;}
+.btn-primary{background:var(--sage);color:#fff;padding:14px 32px;font-size:14px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:#4a7565;}
+.btn-outline{background:none;color:rgba(255,255,255,.7);padding:14px 28px;font-size:14px;font-weight:500;border:1px solid rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+.btn-outline:hover{border-color:rgba(255,255,255,.6);color:#fff;}
+.hero-trust{display:flex;gap:24px;flex-wrap:wrap;}
+.trust-chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:7px;}
+.trust-chip::before{content:'✓';color:var(--sage);font-size:11px;}
+
+/* HERO RIGHT */
+.hero-right{background:var(--ink);display:flex;align-items:center;justify-content:center;padding:60px 50px;position:relative;overflow:hidden;}
+.hero-right::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(92,140,122,.12) 0,transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%);}
+.product-stack{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px;position:relative;z-index:1;}
+.pc-hero{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:24px;cursor:pointer;transition:all .3s;position:relative;}
+.pc-hero:hover{background:rgba(255,255,255,.08);border-color:rgba(92,140,122,.4);transform:translateY(-2px);}
+.pc-hero::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sage);transform:scaleY(0);transition:transform .3s;}
+.pc-hero:hover::after{transform:scaleY(1);}
+.pc-hero-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;}
+.pc-hero-name{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:8px;}
+.pc-hero-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:16px;}
+.pc-hero-bottom{display:flex;justify-content:space-between;align-items:center;}
+.pc-hero-price{font-size:18px;font-weight:600;color:#fff;}
+.btn-add-sm{background:var(--sage);color:#fff;padding:8px 18px;font-size:12px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.btn-add-sm:hover{background:#4a7565;}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--sage);padding:13px 0;overflow:hidden;}
+.marquee-track{display:flex;gap:0;animation:slide 30s linear infinite;width:max-content;}
 .marquee-track:hover{animation-play-state:paused;}
-@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.marquee-item{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;display:flex;align-items:center;gap:40px;}
-.marquee-item span{color:var(--sage);}
-.section{padding:90px 0;}
+@keyframes slide{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-item{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);padding:0 32px;white-space:nowrap;display:flex;align-items:center;gap:32px;}
+.marquee-item span{color:#fff;font-weight:600;}
+.mdot{color:rgba(255,255,255,.3);}
+
+/* SECTION */
+.section{padding:96px 0;}
 .section-alt{background:var(--white);}
-.section-head{margin-bottom:52px;}
-.section-head .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:12px;}
-.section-head h2{font-family:'DM Serif Display',serif;font-size:clamp(32px,3.2vw,46px);line-height:1.12;margin-bottom:14px;}
-.section-head h2 em{font-style:italic;color:var(--sage);}
-.section-head p{font-size:16px;color:var(--ink-soft);max-width:520px;}
-.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.product-card{background:var(--white);border:1px solid var(--hair);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;}
-.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(26,24,20,.10);}
-.pc-visual{height:190px;background:linear-gradient(135deg,var(--sage-lt) 0%,var(--blush) 100%);display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
-.pc-bottle{width:60px;height:94px;background:var(--white);border-radius:7px 7px 14px 14px;border:1.5px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:7px 5px;box-shadow:0 4px 20px rgba(26,24,20,.10);}
-.pc-cap{width:18px;height:7px;border-radius:2px 2px 0 0;margin-bottom:4px;flex:none;}
-.pc-label{width:100%;background:var(--pearl);border-radius:2px;padding:3px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:4.5px;font-weight:600;color:var(--ink);line-height:1.4;}
-.pc-body{padding:20px 20px 18px;}
-.pc-inci{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:7px;}
-.pc-name{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:7px;}
-.pc-desc{font-size:13.5px;color:var(--ash);line-height:1.55;margin-bottom:14px;}
-.pc-row{display:flex;justify-content:space-between;align-items:center;}
-.pc-price{font-weight:600;font-size:15px;}
-.pc-size{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
-.badge{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
-.badge-sage{background:var(--sage-lt);color:var(--sage);}
-.badge-gold{background:var(--gold-lt);color:var(--gold);}
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
-.why-item{padding:32px;background:var(--pearl);border-radius:16px;border:1px solid var(--hair);}
-.why-num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--sage);margin-bottom:14px;display:block;}
-.why-item h3{font-family:'DM Serif Display',serif;font-size:21px;line-height:1.25;margin-bottom:10px;}
-.why-item p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
-.ingredient-block{margin:0;background:var(--ink);border-radius:20px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;overflow:hidden;}
-.ib-left .eyebrow{color:var(--sage);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;display:block;}
-.ib-left h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,2.8vw,38px);color:#fff;line-height:1.15;margin-bottom:16px;}
-.ib-left h2 em{font-style:italic;color:var(--sage);}
-.ib-left p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:22px;}
-.ib-stats{display:flex;flex-direction:column;gap:14px;}
-.ib-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:10px;padding:18px 22px;}
-.ib-stat .sl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;}
-.ib-stat .sv{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--sage);}
-.ib-stat .sd{font-size:13px;color:rgba(255,255,255,.55);margin-top:3px;}
-.quiz-section{background:var(--gold-lt);padding:90px 0;}
-.quiz-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
-.qi-left h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,44px);line-height:1.15;margin-bottom:12px;}
-.qi-left h2 em{font-style:italic;color:var(--gold);}
-.qi-left p{font-size:16px;color:var(--ink-soft);max-width:480px;}
-.btn-gold{background:var(--gold);color:#fff;padding:15px 36px;border-radius:100px;font-size:15px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;}
-footer{background:var(--ink);color:rgba(255,255,255,.6);padding:56px 0 36px;}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px;}
-.fl-logo{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:10px;}
-.fl-logo span{color:var(--sage);}
-.fl-desc{font-size:13.5px;line-height:1.65;max-width:220px;}
-.fc h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px;}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
-.fc ul li a{font-size:13.5px;color:rgba(255,255,255,.6);}
-.fc ul li a:hover{color:#fff;}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;}
-.footer-bottom p{font-size:12px;font-family:'IBM Plex Mono',monospace;}
-@media(max-width:900px){.hero{grid-template-columns:1fr;}.hero-right{height:360px;}.hero-left{padding:60px 28px 40px;}.products-grid{grid-template-columns:1fr 1fr;}.why-grid{grid-template-columns:1fr;}.ingredient-block{grid-template-columns:1fr;gap:32px;padding:40px 28px;}.quiz-inner{grid-template-columns:1fr;}.footer-top{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.products-grid{grid-template-columns:1fr;}.footer-top{grid-template-columns:1fr;}}
+.container{max-width:1200px;margin:0 auto;padding:0 32px;}
+.section-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;display:block;}
+.section-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,3.5vw,48px);line-height:1.15;color:var(--ink);margin-bottom:16px;}
+.section-title em{font-style:italic;color:var(--sage);}
+.section-sub{font-size:16px;color:var(--ash);max-width:520px;line-height:1.7;}
+
+/* PRODUCTS */
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);margin-top:56px;}
+.product-card{background:var(--white);padding:40px 32px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.product-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sage);transform:scaleX(0);transition:transform .3s;}
+.product-card:hover{background:var(--pearl);}
+.product-card:hover::before{transform:scaleX(1);}
+.pc-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--hair);margin-bottom:20px;}
+.pc-formula{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
+.pc-name{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:12px;}
+.pc-desc{font-size:14px;line-height:1.65;color:var(--ash);margin-bottom:28px;}
+.pc-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair);padding-top:20px;}
+.pc-price{font-size:22px;font-weight:700;color:var(--ink);}
+.pc-vol{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ash);margin-top:2px;}
+.btn-add{background:var(--ink);color:#fff;padding:10px 22px;font-size:12.5px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;transition:background .2s;}
+.btn-add:hover{background:var(--sage);}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:56px;}
+.why-card{border-top:2px solid var(--ink);padding-top:28px;}
+.why-num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--sage);margin-bottom:16px;display:block;}
+.why-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.3;}
+.why-text{font-size:14.5px;color:var(--ash);line-height:1.7;}
+
+/* DARK CALLOUT */
+.callout{background:var(--ink2);padding:96px 0;}
+.callout-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.callout-left span{color:var(--sage);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:20px;display:block;}
+.callout-left h2{font-family:'Playfair Display',serif;font-size:clamp(30px,3vw,44px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:20px;}
+.callout-left h2 em{font-style:italic;color:var(--sage);}
+.callout-left p{font-size:15px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:28px;}
+.btn-sage{background:var(--sage);color:#fff;padding:13px 28px;font-size:13.5px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;display:inline-block;transition:background .2s;}
+.btn-sage:hover{background:#4a7565;}
+.callout-right{display:flex;flex-direction:column;gap:12px;}
+.stat-box{border:1px solid rgba(255,255,255,.08);padding:20px 24px;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px;}
+.stat-value{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:var(--sage);}
+.stat-desc{font-size:12.5px;color:rgba(255,255,255,.35);margin-top:4px;}
+
+/* QUIZ */
+.quiz-section{background:var(--gold-lt);padding:80px 0;}
+.quiz-inner{display:flex;justify-content:space-between;align-items:center;gap:40px;}
+.quiz-left span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
+.quiz-left h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,42px);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:12px;}
+.quiz-left h2 em{font-style:italic;color:var(--gold);}
+.quiz-left p{font-size:15px;color:var(--ash);max-width:480px;line-height:1.7;}
+.btn-gold{background:var(--gold);color:#fff;padding:14px 36px;font-size:14px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.btn-gold:hover{background:#9a6d38;}
+
+/* FOOTER */
+footer{background:var(--ink2);color:rgba(255,255,255,.5);padding:64px 0 36px;}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-brand .logo{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:12px;font-weight:700;}
+.footer-brand .logo span{font-style:italic;color:var(--sage);}
+.footer-brand p{font-size:13.5px;line-height:1.7;max-width:220px;}
+.footer-col h4{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:18px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li a{font-size:13.5px;color:rgba(255,255,255,.5);transition:color .2s;}
+.footer-col ul li a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-family:'IBM Plex Mono',monospace;font-size:11px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-left{padding:60px 28px 40px;justify-content:flex-start;}
+  .hero-right{height:400px;}
+  .callout-inner{grid-template-columns:1fr;gap:48px;}
+  .products-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;gap:28px;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px;}
+  .quiz-inner{flex-direction:column;text-align:center;}
+}
+@media(max-width:640px){
+  .nav-links{display:none;}
+  .hero-left{padding:48px 20px 32px;}
+  .hero-right{min-height:320px;padding:36px 20px;}
+  .container{padding:0 20px;}
+  .footer-grid{grid-template-columns:1fr;}
+  .callout{padding:64px 0;}
+}
 @media(prefers-reduced-motion:reduce){.marquee-track{animation:none;}}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div class="wrap">
-    <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="location.href='index.html'" style="cursor:pointer">Lum<span>è</span>re</div>
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
       <li><a href="science.html">The Science</a></li>
       <li><a href="quiz.html">Skin Quiz</a></li>
       <li><a href="#about">About</a></li>
     </ul>
-    <div class="nav-actions">
-      <div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div>
-      <button class="btn btn-primary" onclick="location.href='shop.html'">Shop Now</button>
+    <div class="nav-right">
+      <div class="cart-pill" onclick="location.href='cart.html'">
+        🛒
+        <span class="cart-badge" id="cartCount"></span>
+      </div>
+      <button class="btn-nav" onclick="location.href='shop.html'">Shop Now</button>
     </div>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <span class="hero-eyebrow">Skincare, reformulated</span>
-    <h1 class="hero-headline serif">Named after<br><em>what's in it.</em><br>Nothing hidden.</h1>
-    <p class="hero-sub">Most Indian skincare labels hide ingredients behind vague words like "brightening." Lumère lists the active, the concentration, and the mechanism. <b>The formula is the product.</b></p>
+    <span class="hero-tag">Skincare, reformulated</span>
+    <h1 class="hero-h1">Named after<br><em>what's in it.</em><br>Nothing hidden.</h1>
+    <p class="hero-sub">Most Indian skincare hides ingredients behind vague words like "brightening." Lumère puts the active, the concentration, and the mechanism <strong>in the product name itself.</strong></p>
     <div class="hero-ctas">
-      <button class="btn btn-primary" onclick="location.href='shop.html'">Explore the range</button>
-      <button class="btn btn-ghost" onclick="location.href='quiz.html'">Take skin quiz →</button>
+      <button class="btn-primary" onclick="location.href='shop.html'">Explore the range</button>
+      <button class="btn-outline" onclick="location.href='quiz.html'">Take skin quiz →</button>
     </div>
     <div class="hero-trust">
-      <span class="trust-item">Dermat-tested</span>
-      <span class="trust-item">Made for Indian skin</span>
-      <span class="trust-item">No hidden ingredients</span>
+      <span class="trust-chip">Dermat-tested</span>
+      <span class="trust-chip">Made for Indian skin</span>
+      <span class="trust-chip">NABL lab certified</span>
     </div>
   </div>
   <div class="hero-right">
     <div class="product-stack">
-      <div class="pcard-hero" onclick="location.href='product.html?id=NIA-10'">
-        <div class="pcard-formula">Active Serum · 30ml</div>
-        <div class="pcard-name mono">Niacinamide 10%<br>+ Zinc 1%</div>
-        <p class="pcard-desc">Controls oil, minimises pores, and reduces hyperpigmentation — formulated at the clinically effective 10% threshold.</p>
-        <div class="pcard-footer"><span class="pcard-price">₹699</span><button class="btn btn-sage" style="padding:8px 18px;font-size:12.5px;" onclick="event.stopPropagation();addToCart('NIA-10')">Add to cart</button></div>
+      <div class="pc-hero" onclick="location.href='product.html?id=NIA-10'">
+        <div class="pc-hero-tag">Active Serum · 30ml</div>
+        <div class="pc-hero-name">Niacinamide 10%<br>+ Zinc 1%</div>
+        <p class="pc-hero-desc">Oil control, pore minimisation, hyperpigmentation — at the clinically effective threshold.</p>
+        <div class="pc-hero-bottom">
+          <span class="pc-hero-price">₹699</span>
+          <button class="btn-add-sm" onclick="event.stopPropagation();addToCart('NIA-10')">Add to cart</button>
+        </div>
       </div>
-      <div class="pcard-hero" onclick="location.href='product.html?id=TXA-5'" style="border-left-color:var(--gold);">
-        <div class="pcard-formula" style="color:var(--gold);">Brightening Serum · 30ml</div>
-        <div class="pcard-name mono">Tranexamic Acid 5%<br>+ Kojic Acid 1%</div>
-        <p class="pcard-desc">Targets melanin at the source. No hydroquinone. Formulated for Indian skin's specific pigmentation patterns.</p>
-        <div class="pcard-footer"><span class="pcard-price">₹849</span><button class="btn btn-sage" style="padding:8px 18px;font-size:12.5px;" onclick="event.stopPropagation();addToCart('TXA-5')">Add to cart</button></div>
+      <div class="pc-hero" onclick="location.href='product.html?id=TXA-5'">
+        <div class="pc-hero-tag">Brightening Serum · 30ml</div>
+        <div class="pc-hero-name">Tranexamic Acid 5%<br>+ Kojic Acid 1%</div>
+        <p class="pc-hero-desc">Targets melanin at the source. No hydroquinone. Made for Indian pigmentation patterns.</p>
+        <div class="pc-hero-bottom">
+          <span class="pc-hero-price">₹849</span>
+          <button class="btn-add-sm" onclick="event.stopPropagation();addToCart('TXA-5')" style="background:var(--gold)">Add to cart</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="marquee-section">
+<!-- MARQUEE -->
+<div class="marquee-wrap">
   <div class="marquee-track">
-    <span class="marquee-item"><span>Niacinamide 10%</span>·<span>Tranexamic Acid 5%</span>·<span>Kojic Acid 1%</span>·<span>Hyaluronic Acid 2%</span>·<span>Retinol 0.5%</span>·<span>Azelaic Acid 10%</span>·<span>Salicylic Acid 2%</span>·<span>Zinc PCA 1%</span>·<span>Alpha Arbutin 2%</span>·</span>
-    <span class="marquee-item"><span>Niacinamide 10%</span>·<span>Tranexamic Acid 5%</span>·<span>Kojic Acid 1%</span>·<span>Hyaluronic Acid 2%</span>·<span>Retinol 0.5%</span>·<span>Azelaic Acid 10%</span>·<span>Salicylic Acid 2%</span>·<span>Zinc PCA 1%</span>·<span>Alpha Arbutin 2%</span>·</span>
+    <span class="marquee-item"><span>Niacinamide 10%</span><span class="mdot">·</span>Tranexamic Acid 5%<span class="mdot">·</span><span>Kojic Acid 1%</span><span class="mdot">·</span>Hyaluronic Acid 2%<span class="mdot">·</span><span>Retinol 0.5%</span><span class="mdot">·</span>Azelaic Acid 10%<span class="mdot">·</span><span>Salicylic Acid 2%</span><span class="mdot">·</span>Alpha Arbutin 2%<span class="mdot">·</span><span>Zinc PCA 1%</span><span class="mdot">·</span></span>
+    <span class="marquee-item"><span>Niacinamide 10%</span><span class="mdot">·</span>Tranexamic Acid 5%<span class="mdot">·</span><span>Kojic Acid 1%</span><span class="mdot">·</span>Hyaluronic Acid 2%<span class="mdot">·</span><span>Retinol 0.5%</span><span class="mdot">·</span>Azelaic Acid 10%<span class="mdot">·</span><span>Salicylic Acid 2%</span><span class="mdot">·</span>Alpha Arbutin 2%<span class="mdot">·</span><span>Zinc PCA 1%</span><span class="mdot">·</span></span>
   </div>
 </div>
 
+<!-- PRODUCTS -->
 <section class="section section-alt" id="shop">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">The range</div>
-      <h2 class="serif">Three formulas.<br><em>Zero guesswork.</em></h2>
-      <p>Each product is named by its active ingredient and concentration — not a marketing adjective.</p>
+  <div class="container">
+    <div>
+      <span class="section-kicker">The range</span>
+      <h2 class="section-title">Three formulas.<br><em>Zero guesswork.</em></h2>
+      <p class="section-sub">Named by active ingredient and exact concentration — not a marketing adjective. What you see on the bottle is what's doing the work.</p>
     </div>
-    <div class="products-grid" id="productsGrid">
-      <!-- Loaded dynamically -->
-    </div>
+    <div class="products-grid" id="productsGrid"></div>
   </div>
 </section>
 
+<!-- WHY -->
 <section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Why Lumère</div>
-      <h2 class="serif">Built on what we<br><em>couldn't find.</em></h2>
-    </div>
+  <div class="container">
+    <span class="section-kicker">Why Lumère</span>
+    <h2 class="section-title">The brand we<br><em>couldn't find.</em></h2>
     <div class="why-grid">
-      <div class="why-item"><span class="why-num">01</span><h3 class="serif">Named by what's in it</h3><p>Every product name is the active ingredient and its exact concentration. Not "Brightening Serum." The formula is the name because the formula is what matters.</p></div>
-      <div class="why-item"><span class="why-num">02</span><h3 class="serif">Stability-tested before it ships</h3><p>Every batch goes through stability testing at a NABL-accredited lab before it reaches you. We publish the pH range, effective shelf life, and concentration retention on every product page.</p></div>
-      <div class="why-item"><span class="why-num">03</span><h3 class="serif">Formulated for Indian skin</h3><p>Indian skin has specific pigmentation patterns, oil profiles, and climate stressors that most international formulations ignore. Lumère is built around these specifically.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-alt">
-  <div class="wrap">
-    <div class="ingredient-block">
-      <div class="ib-left">
-        <span class="eyebrow">The science</span>
-        <h2 class="serif">Why <em>Niacinamide</em> works — and why concentration matters.</h2>
-        <p>At 2%, niacinamide is moisturising. At 5%, it starts to reduce pigmentation. At 10%, it controls sebum. Most brands don't tell you which percentage they're using. We put it in the product name.</p>
-        <button class="btn btn-sage" onclick="location.href='science.html'">Read the full breakdown →</button>
+      <div class="why-card">
+        <span class="why-num">01 / 03</span>
+        <div class="why-title">Named by what's in it</div>
+        <p class="why-text">Every product name is the active ingredient and its exact concentration. Not "Brightening Serum." Not "Youth Essence." The formula is the name because the formula is what matters.</p>
       </div>
-      <div class="ib-stats">
-        <div class="ib-stat"><div class="sl">Lumère concentration</div><div class="sv">Niacinamide 10%</div><div class="sd">Clinical efficacy range for oil control and pore minimisation</div></div>
-        <div class="ib-stat"><div class="sl">Stability tested at</div><div class="sv">pH 5.5 – 6.5</div><div class="sd">Optimal range for niacinamide activity and skin tolerance</div></div>
-        <div class="ib-stat"><div class="sl">Tested on</div><div class="sv">Indian skin tones</div><div class="sd">Fitzpatrick III–V, the range most Indian consumers fall in</div></div>
+      <div class="why-card">
+        <span class="why-num">02 / 03</span>
+        <div class="why-title">Stability-tested before it ships</div>
+        <p class="why-text">Every batch is tested at a NABL-accredited lab before it reaches you. We publish the pH range, shelf life, and concentration data on every product page — not just on request.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-num">03 / 03</span>
+        <div class="why-title">Formulated for Indian skin</div>
+        <p class="why-text">Indian skin has specific pigmentation, oil profile, and climate stressors most international formulas ignore. Lumère is built around Fitzpatrick III–V — not adapted from a Western formula.</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- CALLOUT -->
+<div class="callout" id="science">
+  <div class="container">
+    <div class="callout-inner">
+      <div class="callout-left">
+        <span>The science behind it</span>
+        <h2>Why <em>Niacinamide</em> works<br>— and why % matters.</h2>
+        <p>At 2%, it moisturises. At 5%, it reduces pigmentation. At 10%, it controls sebum and minimises pores. Most brands don't tell you which % they're using. We put it in the product name.</p>
+        <button class="btn-sage" onclick="location.href='science.html'">Read the breakdown →</button>
+      </div>
+      <div class="callout-right">
+        <div class="stat-box">
+          <div class="stat-label">Lumère concentration</div>
+          <div class="stat-value">Niacinamide 10%</div>
+          <div class="stat-desc">Clinical efficacy range for oil control and pore minimisation</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Formulated at</div>
+          <div class="stat-value">pH 5.5 – 6.5</div>
+          <div class="stat-desc">Optimal range for niacinamide activity and skin tolerance</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Tested on</div>
+          <div class="stat-value">Indian skin tones</div>
+          <div class="stat-desc">Fitzpatrick III–V, the range most Indian consumers fall in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
 <section class="quiz-section" id="quiz">
-  <div class="wrap">
+  <div class="container">
     <div class="quiz-inner">
-      <div class="qi-left">
-        <div class="eyebrow" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;">Your skin, specifically</div>
-        <h2 class="serif">Not sure where to start?<br><em>60 seconds</em> is all it takes.</h2>
-        <p>Answer eight questions about your skin concerns, environment, and current routine. We'll tell you exactly which actives your skin needs.</p>
+      <div class="quiz-left">
+        <span>Your skin, specifically</span>
+        <h2>Not sure where<br>to start? <em>60 seconds.</em></h2>
+        <p>Tell us about your skin concerns and environment. We'll tell you exactly which actives work for you — and which to avoid layering.</p>
       </div>
       <button class="btn-gold" onclick="location.href='quiz.html'">Take the skin quiz →</button>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div><div class="fl-logo serif">Lum<span>è</span>re</div><p class="fl-desc">Skincare named after what's in it. Formulated for Indian skin. No hidden ingredients, no vague claims.</p></div>
-      <div class="fc"><h4>Shop</h4><ul><li><a href="shop.html">All products</a></li><li><a href="product.html?id=NIA-10">Niacinamide 10%</a></li><li><a href="product.html?id=TXA-5">Tranexamic Acid 5%</a></li><li><a href="product.html?id=HA-2">Hyaluronic Acid 2%</a></li></ul></div>
-      <div class="fc"><h4>Learn</h4><ul><li><a href="science.html">Ingredient science</a></li><li><a href="quiz.html">Skin quiz</a></li><li><a href="#about">About Lumère</a></li></ul></div>
-      <div class="fc"><h4>Support</h4><ul><li><a href="track.html">Track your order</a></li><li><a href="#returns">Returns &amp; refunds</a></li><li><a href="#shipping">Shipping policy</a></li><li><a href="mailto:care@lumere.in">Contact us</a></li></ul></div>
+<!-- FOOTER -->
+<footer id="about">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Lum<span>è</span>re</div>
+        <p>Skincare named after what's in it. Formulated for Indian skin. No hidden ingredients, no vague claims.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All products</a></li>
+          <li><a href="product.html?id=NIA-10">Niacinamide 10%</a></li>
+          <li><a href="product.html?id=TXA-5">Tranexamic Acid 5%</a></li>
+          <li><a href="product.html?id=HA-2">Hyaluronic Acid 2%</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="science.html">The science</a></li>
+          <li><a href="quiz.html">Skin quiz</a></li>
+          <li><a href="#about">About Lumère</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="track.html">Track order</a></li>
+          <li><a href="mailto:care@lumere.in">Contact us</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Shipping policy</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-bottom"><p class="mono">© 2026 Lumère Skincare Pvt Ltd</p><p class="mono">Formulated in India · Shipped from Delhi</p></div>
+    <div class="footer-bottom">
+      <p>© 2026 Lumère Skincare Pvt Ltd · Shipped from Delhi</p>
+      <p>GSTIN: XXXXXXXXXXXX</p>
+    </div>
   </div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
-<script src="js/cart.js"></script>
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script>
-  renderProductsGrid('productsGrid', 3);
-  updateCartCount();
+updateCartCount();
+renderProductsGrid('productsGrid', 3);
 </script>
 </body>
 </html>

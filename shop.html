@@ -4,62 +4,73 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop — Lumère</title>
-<link rel="stylesheet" href="styles/global.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-.shop-head{padding:80px 0 40px;border-bottom:1px solid var(--hair);}
-.shop-head .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:12px;}
-.shop-head h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);}
-.shop-head h1 em{font-style:italic;color:var(--sage);}
-.shop-head p{font-size:16px;color:var(--ink-soft);max-width:480px;margin-top:12px;}
-.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:48px 0 80px;}
-.product-card{background:var(--white);border:1px solid var(--hair);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;}
-.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(26,24,20,.10);}
-.pc-visual{height:190px;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
-.pc-bottle{width:60px;height:94px;background:var(--white);border-radius:7px 7px 14px 14px;border:1.5px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:7px 5px;box-shadow:0 4px 20px rgba(26,24,20,.10);}
-.pc-cap{width:18px;height:7px;border-radius:2px 2px 0 0;margin-bottom:4px;flex:none;}
-.pc-label{width:100%;background:var(--pearl);border-radius:2px;padding:3px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:4.5px;font-weight:600;color:var(--ink);line-height:1.4;}
-.pc-body{padding:20px 20px 18px;}
-.pc-inci{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:7px;}
-.pc-name{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:7px;}
-.pc-desc{font-size:13.5px;color:var(--ash);line-height:1.55;margin-bottom:14px;}
-.pc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
-.pc-price{font-weight:600;font-size:15px;}
-.pc-size{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);}
-.badge{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
-.badge-sage{background:var(--sage-lt);color:var(--sage);}
-.badge-gold{background:var(--gold-lt);color:var(--gold);}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ink:#0F0F0F;--ink2:#1E1E1E;--white:#fff;--pearl:#FAF8F4;--sage:#5C8C7A;--gold:#B8864E;--ash:#888;--hair:#E5E2DC;}
+body{background:var(--pearl);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+nav{position:sticky;top:0;z-index:100;height:60px;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;}
+.nav-logo span{font-style:italic;color:var(--sage);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--ash);}
+.nav-links a:hover{color:var(--ink);}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.cart-pill{width:38px;height:38px;border:1.5px solid var(--hair);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--sage);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border-radius:50%;}
+.btn-nav{background:var(--ink);color:#fff;padding:9px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.container{max-width:1200px;margin:0 auto;padding:0 32px;}
+.page-hero{background:var(--ink2);padding:80px 0 60px;}
+.page-hero .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:14px;display:block;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,64px);font-weight:900;color:#fff;line-height:1.08;}
+.page-hero h1 em{font-style:italic;color:var(--sage);}
+.page-hero p{font-size:16px;color:rgba(255,255,255,.5);margin-top:14px;max-width:480px;line-height:1.7;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);margin:48px 0 80px;}
+.product-card{background:var(--white);padding:40px 32px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.product-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sage);transform:scaleX(0);transition:transform .3s;}
+.product-card:hover{background:var(--pearl);}
+.product-card:hover::before{transform:scaleX(1);}
+.pc-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--hair);margin-bottom:20px;}
+.pc-formula{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
+.pc-name{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:12px;}
+.pc-desc{font-size:14px;line-height:1.65;color:var(--ash);margin-bottom:28px;}
+.pc-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair);padding-top:20px;}
+.pc-price{font-size:22px;font-weight:700;color:var(--ink);}
+.pc-vol{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ash);margin-top:2px;}
+.btn-add{background:var(--ink);color:#fff;padding:10px 22px;font-size:12.5px;font-weight:600;letter-spacing:.04em;border:none;cursor:pointer;}
+.btn-add:hover{background:var(--sage);}
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;padding:14px 22px;font-size:13.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
 @media(max-width:900px){.products-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr;}.nav-links{display:none;}.container{padding:0 20px;}}
 </style>
 </head>
 <body>
 <nav>
-  <div class="wrap">
+  <div class="nav-inner">
     <div class="nav-logo" onclick="location.href='index.html'">Lum<span>è</span>re</div>
-    <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="science.html">The Science</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
-    <div class="nav-actions"><div class="cart-icon" onclick="location.href='cart.html'" id="cartBtn">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></div></div>
+    <ul class="nav-links"><li><a href="shop.html">Shop</a></li><li><a href="quiz.html">Skin Quiz</a></li></ul>
+    <div class="nav-right">
+      <div class="cart-pill" onclick="location.href='cart.html'">🛒<span class="cart-badge" id="cartCount"></span></div>
+      <button class="btn-nav" onclick="location.href='cart.html'">Cart</button>
+    </div>
   </div>
 </nav>
-
-<div class="shop-head">
-  <div class="wrap">
-    <div class="eyebrow">Lumère formulas</div>
-    <h1 class="serif">Three actives.<br><em>Zero guesswork.</em></h1>
+<div class="page-hero">
+  <div class="container">
+    <span class="kicker">Lumère formulas</span>
+    <h1>Three actives.<br><em>Zero guesswork.</em></h1>
     <p>Named by what's in them. Tested before they're sold. Made for Indian skin.</p>
   </div>
 </div>
-
-<div class="wrap">
+<div class="container">
   <div class="products-grid" id="productsGrid"></div>
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
-<script>
-renderProductsGrid('productsGrid');
-updateCartCount();
-</script>
+<script>updateCartCount();renderProductsGrid('productsGrid');</script>
 </body>
 </html>
